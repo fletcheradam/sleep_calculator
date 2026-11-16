@@ -1,0 +1,48 @@
+{
+  "activities": [
+    {
+      "id": "walk",
+      "name": "Short walk",
+      "tagline": "A brisk 10 minutes can take the edge off a craving",
+      "what": "Reviews of small studies find that a single brisk bout of exercise, often 10-15 minutes, usually lowers cigarette cravings and withdrawal symptoms for a short while. Exercise also tends to lift mood and sharpen attention for a time afterwards. Adding exercise to quit support has not been clearly shown to raise long-term quit rates.",
+      "howTo": "Walk briskly for 10-15 minutes, fast enough that you can talk but not sing. Outdoors near trees or water is a bonus, but any route works.",
+      "craving": "When a craving hits, start walking right away; the urge often eases during or soon after, though the effect is temporary and varies from person to person.",
+      "safety": "",
+      "evidence": "strong",
+      "sourceName": "Haasova et al. 2013, Addiction (pooled analysis of exercise and cravings)",
+      "sourceUrl": "https://researchportal.plymouth.ac.uk/en/publications/the-acute-effects-of-physical-activity-on-cigarette-cravings-syst-2/"
+    },
+    {
+      "id": "hike",
+      "name": "Hike",
+      "tagline": "Get out in nature and give your mind some space",
+      "what": "A hike is longer exercise in a natural setting. Brisk exercise is linked to short-term craving relief, and time in green space is linked to better mood and less rumination in some studies, including one 90-minute nature-walk experiment. Most of this evidence is from small, short studies, and none tested hiking for quitting.",
+      "howTo": "Pick a trail you enjoy and walk at a steady, comfortable pace for 45-90 minutes. Take water, and let your phone stay in your pocket.",
+      "craving": "There is no direct evidence on hiking and cravings, but a hike gives you a long stretch away from usual smoking cues, and brisk exercise generally helps cravings in the short term.",
+      "safety": "",
+      "evidence": "moderate",
+      "sourceName": "Bratman et al. 2015, PNAS (nature walk and rumination)",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/26124129"
+    },
+    {
+      "id": "coldswim",
+      "name": "Cold ocean swim",
+      "tagline": "A short, careful dip for a mood and alertness boost",
+      "what": "Early, small studies hint that cold-water immersion may improve how people feel, and a 2025 review found benefits for sleep and quality of life but not clearly for mood. The studies are few and small, often not randomised. There is no direct evidence that cold swimming reduces cigarette cravings.",
+      "howTo": "Keep dips short, around 1-5 minutes at first, and build up slowly over weeks. Walk in gradually, breathe out slowly, and get out before you feel very cold.",
+      "craving": "We have no evidence that cold swimming eases cravings, so treat it as a mood and alertness extra, and use a walk for a craving.",
+      "safety": "Never swim alone, enter slowly, and stay close to shore. Sudden cold can cause gasping, swim failure and heart rhythm problems, especially if your face goes under. Warm up fully afterwards, and talk to a doctor first if you have any heart problems.",
+      "evidence": "emerging",
+      "sourceName": "Cain et al. 2025, PLoS One (cold-water immersion systematic review)",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/39879231/"
+    }
+  ],
+  "sources": [
+    { "name": "Haasova et al. 2013, Addiction: acute effects of physical activity on cigarette cravings", "url": "https://researchportal.plymouth.ac.uk/en/publications/the-acute-effects-of-physical-activity-on-cigarette-cravings-syst-2/" },
+    { "name": "Ussher et al. 2019, Cochrane: Exercise interventions for smoking cessation", "url": "https://cochranelibrary.com/cdsr/doi/10.1002/14651858.CD002295.pub4/information" },
+    { "name": "Bratman et al. 2015, PNAS: Nature experience reduces rumination", "url": "https://pubmed.ncbi.nlm.nih.gov/26124129" },
+    { "name": "Barton & Pretty 2010: Best dose of green exercise for mental health", "url": "https://repository.essex.ac.uk/683/" },
+    { "name": "Cain et al. 2025, PLoS One: Cold-water immersion, health and wellbeing", "url": "https://pubmed.ncbi.nlm.nih.gov/39879231/" },
+    { "name": "Shattock & Tipton 2012: Autonomic conflict and cold water immersion", "url": "https://researchportal.port.ac.uk/en/publications/autonomic-conflict-a-different-way-to-die-during-cold-water-immer/" }
+  ]
+}

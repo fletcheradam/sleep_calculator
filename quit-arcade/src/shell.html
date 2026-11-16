@@ -179,7 +179,9 @@ footer { font-size: 13px; color: var(--dim); display: flex; flex-direction: colu
     <div class="bar"><i id="next-fill"></i></div>
   </section>
 
-  <section class="panel" aria-labelledby="train-h">
+  <div class="tabs" id="maptabs" role="tablist" aria-label="Recovery maps"></div>
+
+  <section class="panel" id="sec-train" aria-labelledby="train-h">
     <div class="row between"><h2 id="train-h">TRAINING GAINS</h2><span class="label" id="train-count"></span></div>
     <p class="dim small">What quitting does for the engine you train with, and when. Pick your sports to see where each change tends to show up.</p>
     <div class="chips" id="sports"></div>
@@ -192,10 +194,28 @@ footer { font-size: 13px; color: var(--dim); display: flex; flex-direction: colu
     </div>
   </section>
 
-  <section class="panel" aria-labelledby="track-h">
+  <section class="panel" id="sec-brain" aria-labelledby="brain-h">
+    <div class="row between"><h2 id="brain-h">BRAIN AND MIND</h2><span class="label" id="brain-count"></span></div>
+    <p class="dim small">Focus, mood and stress after the last cigarette. The first weeks include a real dip in concentration; it passes, and the longer-term picture is better than most smokers expect.</p>
+    <ol class="track" id="brain-track"></ol>
+    <div id="brain-caveats" class="src"></div>
+    <div class="method">
+      <h3>MIND CHECK</h3>
+      <p class="dim small">Thirty seconds, once a day, ideally at the same time. Your own trend is the evidence that counts for you.</p>
+      <div id="mind"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="sec-body" aria-labelledby="track-h">
     <div class="row between"><h2 id="track-h">BODY RECOVERY MAP</h2><span class="label" id="track-count"></span></div>
     <p class="dim small">Each level opens on its own as the clock runs. Timings are typical figures from public-health bodies; your body may run a little ahead or behind.</p>
     <ol class="track" id="track"></ol>
+  </section>
+
+  <section class="panel" aria-labelledby="moves-h">
+    <div class="row between"><h2 id="moves-h">DAILY MOVES</h2><span class="label" id="moves-count"></span></div>
+    <p class="dim small">Things you can already do that take the edge off cravings and lift mood and focus. Log them to build the habit.</p>
+    <div class="games" id="moves"></div>
   </section>
 
   <section class="panel" aria-labelledby="arcade-h">
@@ -229,6 +249,11 @@ var PER_CIG = (D.milestones || {}).perCigarette || null;
 var METHODS = D.methods || {};
 var TRAIN = D.training || {};
 var TR = (TRAIN.gains || []).slice().sort(function (a, b) { return a.seconds - b.seconds; });
+var BRAIN = D.brain || {};
+var BR = (BRAIN.gains || []).slice().sort(function (a, b) { return a.seconds - b.seconds; });
+var ACTS = (D.activities || {}).activities || [];
+var MOVES = [['walk', 'Short walk', 'LOG A WALK'], ['hike', 'Hike', 'LOG A HIKE'], ['coldswim', 'Cold ocean swim', 'LOG A SWIM']];
+var MIND = [['focus', 'Focus'], ['mood', 'Mood'], ['calm', 'Calm']];
 var SPORTS = [['crossfit', 'CrossFit'], ['muaythai', 'Muay Thai'], ['running', 'Running']];
 var BENCH = [
   { id: 'rhr', name: 'Resting heart rate', unit: 'bpm', lower: true, ph: '62' },
@@ -251,7 +276,7 @@ var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)'
 /* ---------- state ---------- */
 function defaults() {
   return { v: 1, quitAt: null, cigsPerDay: 15, packPrice: 0, packSize: 20, currency: guessCurrency(), xp: 0,
-    cravings: [], slips: [], plans: [], reasons: [], rewards: [], bench: [], sports: ['crossfit', 'muaythai', 'running'], seen: [], xpFor: [], bestMs: 0, hi: {}, muted: true, updatedAt: 0 };
+    cravings: [], slips: [], plans: [], reasons: [], rewards: [], bench: [], moves: [], mind: [], sports: ['crossfit', 'muaythai', 'running'], seen: [], xpFor: [], bestMs: 0, hi: {}, muted: true, updatedAt: 0 };
 }
 function guessCurrency() {
   var loc = (navigator.language || '').toUpperCase();
@@ -263,7 +288,7 @@ function normalize(o) {
   var d = defaults(), k;
   if (!o || typeof o !== 'object') return d;
   for (k in d) if (o[k] !== undefined && o[k] !== null || k === 'quitAt') if (o[k] !== undefined) d[k] = o[k];
-  ['cravings', 'slips', 'plans', 'reasons', 'rewards', 'bench', 'sports', 'seen', 'xpFor'].forEach(function (a) { if (!Array.isArray(d[a])) d[a] = []; });
+  ['cravings', 'slips', 'plans', 'reasons', 'rewards', 'bench', 'moves', 'mind', 'sports', 'seen', 'xpFor'].forEach(function (a) { if (!Array.isArray(d[a])) d[a] = []; });
   if (typeof d.hi !== 'object' || !d.hi) d.hi = {};
   return d;
 }
@@ -394,7 +419,7 @@ function tick() {
   var nx = MS.filter(function (m) { return m.seconds > sec; })[0];
   var id = nx ? nx.id : '_end';
   if (id !== lastNextId) { lastNextId = id; renderNext(nx); renderTrack(); }
-  var tn = TR.filter(function (m) { return m.seconds > sec; })[0], tid = tn ? tn.id : '_end';
+  var tn = TR.filter(function (m) { return m.seconds > sec; })[0], bn = BR.filter(function (m) { return m.seconds > sec; })[0], tid = (tn ? tn.id : '_end') + '|' + (bn ? bn.id : '_end');
   if (tid !== lastTrainId) { lastTrainId = tid; renderTraining(); }
   if (nx) {
     var prev = 0; MS.forEach(function (m) { if (m.seconds <= sec) prev = m.seconds; });
@@ -455,9 +480,9 @@ function renderSports() {
     } }));
   });
 }
-function renderTraining() {
-  var sec = elapsedSec(), el = clear($('train-track')), done = 0, curMarked = false;
-  TR.forEach(function (m) {
+function renderGains(items, trackId, countId, caveatsId, caveats, lines) {
+  var sec = elapsedSec(), el = clear($(trackId)), done = 0, curMarked = false;
+  items.forEach(function (m) {
     var isDone = m.seconds <= sec, isCur = !isDone && !curMarked, tough = m.kind === 'tough';
     if (isDone) done++; if (isCur) curMarked = true;
     var body = h('div', { class: 'body' },
@@ -467,17 +492,93 @@ function renderTraining() {
         m.evidence ? h('span', { class: 'chip ' + m.evidence, text: 'evidence: ' + m.evidence }) : null),
       h('h3', { text: m.title }),
       h('p', { class: 'small', text: m.body }));
-    SPORTS.forEach(function (sp) {
-      if (S.sports.indexOf(sp[0]) < 0 || !m.sports || !m.sports[sp[0]]) return;
-      body.appendChild(h('p', { class: 'sport-line' }, h('b', { text: sp[1] }), m.sports[sp[0]]));
-    });
+    lines(m).forEach(function (l) { body.appendChild(h('p', { class: 'sport-line' }, h('b', { text: l[0] }), l[1])); });
     if (m.note) body.appendChild(h('p', { class: 'src', text: m.note }));
     var s = srcLink(m.sourceName, m.sourceUrl); if (s) body.appendChild(s);
     el.appendChild(h('li', { class: isDone ? 'done' : isCur ? 'cur' : 'locked' }, h('span', { class: 'node', 'aria-hidden': 'true' }), body));
   });
-  $('train-count').textContent = TR.length ? done + ' / ' + TR.length + ' in play' : '';
-  var cv = clear($('train-caveats'));
-  (TRAIN.caveats || []).forEach(function (c) { cv.appendChild(h('p', { text: c })); });
+  $(countId).textContent = items.length ? done + ' / ' + items.length + ' in play' : '';
+  var cv = clear($(caveatsId));
+  (caveats || []).forEach(function (c) { cv.appendChild(h('p', { text: c })); });
+}
+function renderTraining() {
+  renderGains(TR, 'train-track', 'train-count', 'train-caveats', TRAIN.caveats, function (m) {
+    return SPORTS.filter(function (sp) { return S.sports.indexOf(sp[0]) >= 0 && m.sports && m.sports[sp[0]]; }).map(function (sp) { return [sp[1], m.sports[sp[0]]]; });
+  });
+  renderGains(BR, 'brain-track', 'brain-count', 'brain-caveats', BRAIN.caveats, function (m) { return m.work ? [['At work', m.work]] : []; });
+}
+var MAPS = [['body', 'BODY'], ['train', 'TRAINING'], ['brain', 'BRAIN AND MIND']];
+var mapTab = 'body';
+try { mapTab = localStorage.getItem(LS_KEY + '-map') || 'body'; } catch (e) {}
+function renderMapTabs() {
+  var el = clear($('maptabs'));
+  MAPS.forEach(function (t) {
+    $('sec-' + t[0]).hidden = mapTab !== t[0];
+    el.appendChild(h('button', { class: 'btn', type: 'button', role: 'tab', 'aria-selected': String(mapTab === t[0]), 'aria-pressed': String(mapTab === t[0]), text: t[1], onclick: function () {
+      mapTab = t[0]; try { localStorage.setItem(LS_KEY + '-map', mapTab); } catch (e) {}
+      renderMapTabs();
+    } }));
+  });
+}
+function sameDay(a, b) { return new Date(a).toDateString() === new Date(b).toDateString(); }
+function renderMind() {
+  var el = clear($('mind'));
+  el.style.cssText = 'display:flex;flex-direction:column;gap:12px';
+  var inputs = {}, form = h('form', { class: 'inline' });
+  MIND.forEach(function (k) {
+    var out = h('b', { style: 'font:500 16px/1 var(--mono);color:var(--pink)', text: '5' });
+    var r = h('input', { type: 'range', id: 'mind-' + k[0], min: '1', max: '10', step: '1', value: '5' });
+    r.addEventListener('input', function () { out.textContent = r.value; });
+    inputs[k[0]] = r;
+    form.appendChild(h('div', { class: 'field' }, h('label', { class: 'label', for: 'mind-' + k[0] }, k[1] + ' today, 1 to 10 · ', out), r));
+  });
+  form.appendChild(h('button', { class: 'btn mint', type: 'submit', text: 'LOG TODAY' }));
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var now = Date.now(), had = S.mind.some(function (m) { return sameDay(m.t, now); });
+    S.mind = S.mind.filter(function (m) { return !sameDay(m.t, now); });
+    S.mind.push({ t: now, focus: +inputs.focus.value, mood: +inputs.mood.value, calm: +inputs.calm.value });
+    if (!had) addXp(15);
+    save(); renderStats(); renderMind(); toast(had ? 'Today\'s mind check updated.' : 'Mind check logged.');
+  });
+  el.appendChild(form);
+  if (!S.mind.length) { el.appendChild(h('p', { class: 'dim small', text: 'No check-ins yet. Expect the first week or two to score lower, then watch which way the line goes.' })); return; }
+  var first = S.mind[0], last = S.mind[S.mind.length - 1], recent = S.mind.slice(-14), stats = h('div', { class: 'stats' });
+  MIND.forEach(function (k) {
+    stats.appendChild(h('div', { class: 'stat c-blue' },
+      h('b', { text: S.mind.length > 1 ? first[k[0]] + ' → ' + last[k[0]] : String(last[k[0]]) }),
+      h('span', { class: 'small dim', text: k[1] + (S.mind.length > 1 ? ', first check-in to latest' : ', baseline') }),
+      h('div', { class: 'days', style: 'height:44px;grid-template-columns:repeat(' + recent.length + ',1fr)', role: 'img', 'aria-label': k[1] + ' for the last ' + recent.length + ' check-ins: ' + recent.map(function (m) { return m[k[0]]; }).join(', ') },
+        recent.map(function (m) { return h('i', { style: 'height:' + m[k[0]] * 10 + '%;background:var(--blue)', title: new Date(m.t).toLocaleDateString() + ': ' + m[k[0]] }); }))));
+  });
+  el.appendChild(stats);
+  el.appendChild(h('p', { class: 'small dim', text: S.mind.length + (S.mind.length === 1 ? ' check-in' : ' check-ins') + ' logged. Bars show your last ' + recent.length + ', oldest on the left.' }));
+}
+function actData(id) { return ACTS.filter(function (a) { return a.id === id; })[0] || {}; }
+function logMove(type) {
+  var now = Date.now(), had = S.moves.some(function (m) { return m.type === type && sameDay(m.t, now); });
+  S.moves.push({ t: now, type: type });
+  if (!had) addXp(25);
+  save(); renderStats(); renderMoves();
+}
+function renderMoves() {
+  var el = clear($('moves')), weekAgo = Date.now() - 7 * 86400000, days = {};
+  S.moves.forEach(function (m) { if (m.t > weekAgo) days[new Date(m.t).toDateString()] = 1; });
+  $('moves-count').textContent = Object.keys(days).length + ' of the last 7 days';
+  MOVES.forEach(function (mv) {
+    var a = actData(mv[0]), n = S.moves.filter(function (m) { return m.type === mv[0] && m.t > weekAgo; }).length;
+    el.appendChild(h('div', { class: 'game' },
+      h('h3', { text: a.name || mv[1] }),
+      h('span', { class: 'label', text: n + ' in the last 7 days' }),
+      a.tagline ? h('p', { text: a.tagline }) : null,
+      a.what ? h('p', { class: 'small', text: a.what }) : null,
+      a.howTo ? h('p', { class: 'small dim', text: 'How: ' + a.howTo }) : null,
+      a.craving ? h('p', { class: 'small dim', text: 'For a craving: ' + a.craving }) : null,
+      a.safety ? h('div', { class: 'banner small', text: a.safety }) : null,
+      a.evidence ? h('span', { class: 'chip ' + a.evidence, text: 'evidence: ' + a.evidence }) : null,
+      srcLink(a.sourceName, a.sourceUrl),
+      h('button', { class: 'btn', type: 'button', text: mv[2], onclick: function () { logMove(mv[0]); toast('Logged: ' + (a.name || mv[1])); } })));
+  });
 }
 function parseBench(b, v) {
   v = String(v).trim();
@@ -637,7 +738,8 @@ function cravingPick(c) {
     h('div', { class: 'games' }, GAMES.map(function (g) {
       return h('button', { class: 'btn', type: 'button', onclick: function () { c.tool = g.id; runGame(g, function (res) { c.score = res.score || 0; recordScore(g, res); cravingAfter(c); }); } },
         g.name + ' · ' + g.len);
-    }).concat([h('button', { class: 'btn', type: 'button', text: 'QUICK IDEA · 2 min', onclick: function () { c.tool = 'idea'; quickIdea(c); } })]))
+    }).concat([h('button', { class: 'btn', type: 'button', text: 'SHORT WALK · 10 min', onclick: function () { c.tool = 'walk'; walkMission(c); } }),
+      h('button', { class: 'btn', type: 'button', text: 'QUICK IDEA · 2 min', onclick: function () { c.tool = 'idea'; quickIdea(c); } })]))
   ), true);
 }
 function quickIdea(c) {
@@ -651,6 +753,21 @@ function quickIdea(c) {
     h('h3', { text: pick(COPY.quickDistractions) || 'Walk briskly to the end of the street and back.' }),
     clock,
     h('button', { class: 'btn mint', type: 'button', text: 'DONE', onclick: function () { cravingAfter(c); } })
+  ), true, function () { clearInterval(iv); });
+}
+function walkMission(c) {
+  var left = 600, clock = h('div', { class: 'big', text: '10:00' }), a = actData('walk');
+  function done() { clearInterval(iv); logMove('walk'); cravingAfter(c); }
+  var iv = setInterval(function () {
+    left--; clock.textContent = Math.floor(left / 60) + ':' + pad(left % 60);
+    if (left <= 0) done();
+  }, 1000);
+  openOverlay(panel(
+    h('h2', { text: 'TEN-MINUTE WALK' }),
+    h('h3', { text: 'Shoes on, phone in your pocket, out the door. Brisk enough that talking takes a little effort.' }),
+    a.craving ? h('p', { class: 'dim small' }, a.craving + ' ', srcLink(a.sourceName, a.sourceUrl)) : null,
+    clock,
+    h('button', { class: 'btn mint', type: 'button', text: 'I AM BACK', onclick: done })
   ), true, function () { clearInterval(iv); });
 }
 function cravingAfter(c) {
@@ -872,7 +989,7 @@ function renderAll() {
   $('greeting').textContent = isDemo() ? '' : (pick(COPY.dailyCheckIn, Math.floor(Date.now() / 86400000)) || '') ;
   $('btn-sound').textContent = S.muted ? 'SOUND OFF' : 'SOUND ON';
   $('btn-sound').setAttribute('aria-pressed', String(!S.muted));
-  lastNextId = null; lastTrainId = null; renderSports(); renderBench(); renderStats(); renderGames(); renderTabs(); renderTab(); tick();
+  lastNextId = null; lastTrainId = null; renderMapTabs(); renderSports(); renderBench(); renderMind(); renderMoves(); renderStats(); renderGames(); renderTabs(); renderTab(); tick();
   if (S.slips.length && best) $('greeting').title = 'Best streak ' + fmtDur(best / 1000);
 }
 $('btn-sos').addEventListener('click', cravingStart);
