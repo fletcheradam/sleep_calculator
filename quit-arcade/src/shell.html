@@ -492,15 +492,18 @@ function fmtBench(b, n) {
   var hr = Math.floor(n / 3600), mn = Math.floor(n % 3600 / 60);
   return (hr ? hr + ':' + pad(mn) : mn) + ':' + pad(Math.round(n % 60));
 }
+var benchType = 'rhr';
 function renderBench() {
   var el = clear($('bench'));
   el.style.cssText = 'display:flex;flex-direction:column;gap:12px';
   var sel = h('select', { id: 'bench-type' }, BENCH.map(function (b) { return h('option', { value: b.id, text: b.name }); }));
-  var val = h('input', { type: 'text', id: 'bench-value', inputmode: 'text', maxlength: '9', placeholder: BENCH[0].ph });
-  var lab = h('label', { class: 'label', for: 'bench-value', text: 'Result (bpm)' });
+  sel.value = benchType;
+  var val = h('input', { type: 'text', id: 'bench-value', inputmode: 'text', maxlength: '9' });
+  var lab = h('label', { class: 'label', for: 'bench-value' });
   var err = h('p', { class: 'small', style: 'color:var(--red)', role: 'alert' });
   function cur() { return BENCH.filter(function (b) { return b.id === sel.value; })[0]; }
-  sel.addEventListener('change', function () { var b = cur(); val.placeholder = b.ph; lab.textContent = 'Result (' + (b.unit === 'time' ? 'min:sec' : b.unit) + ')'; err.textContent = ''; });
+  function sync() { var b = cur(); benchType = b.id; val.placeholder = b.ph; lab.textContent = 'Result (' + (b.unit === 'time' ? 'min:sec' : b.unit) + ')'; err.textContent = ''; }
+  sel.addEventListener('change', sync);
   var form = h('form', { class: 'inline' },
     h('div', { class: 'field', style: 'flex-grow:2' }, h('label', { class: 'label', for: 'bench-type', text: 'Test' }), sel),
     h('div', { class: 'field narrow' }, lab, val),
@@ -511,7 +514,7 @@ function renderBench() {
     S.bench.push({ t: Date.now(), type: b.id, v: n }); addXp(20); save(); renderStats(); renderBench();
     toast('Logged: ' + b.name + ' ' + fmtBench(b, n));
   });
-  el.appendChild(form); el.appendChild(err);
+  el.appendChild(form); el.appendChild(err); sync();
   var rows = [];
   BENCH.forEach(function (b) {
     var es = S.bench.filter(function (x) { return x.type === b.id; });

@@ -1,0 +1,270 @@
+{
+  "gains": [
+    {
+      "id": "co-clearing",
+      "seconds": 43200,
+      "label": "12 hours",
+      "title": "Carbon monoxide starts leaving your blood",
+      "body": "Carbon monoxide from smoke binds haemoglobin in place of oxygen. Once you stop, it is breathed out over hours, so more of your red cells can carry oxygen to working muscle again.",
+      "sports": {
+        "running": "An easy run tomorrow may feel a touch less laboured at the same pace, since more haemoglobin is free to carry oxygen.",
+        "crossfit": "Short, hard metcons lean on oxygen delivery between bursts; freeing haemoglobin from CO removes one handicap on that.",
+        "muaythai": "Breathing between rounds on the pads may recover you slightly better once CO is no longer occupying your oxygen carriers."
+      },
+      "kind": "gain",
+      "evidence": "strong",
+      "sourceName": "Population pharmacokinetic analysis of carboxyhaemoglobin in adult smokers, 2007",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2291280",
+      "note": "The direction is certain physiology. Speed varies: commonly cited half-lives are around 4-6 hours, but a smoker-based model found a slower second phase that differed widely between people. 'Mostly cleared within a day or two' is a reasoned summary, not a single measured figure."
+    },
+    {
+      "id": "resting-heart-rate",
+      "seconds": 86400,
+      "label": "1 day",
+      "title": "Resting heart rate tends to drop",
+      "body": "Nicotine pushes heart rate and blood pressure up. In small studies of quitters, heart rate fell within the first day, by around 8 beats per minute on average in one group.",
+      "sports": {
+        "running": "If you track resting HR on a watch, many people notice it dip in the first days, so recalibrate easy-run zones before reading too much into it.",
+        "crossfit": "A lower starting heart rate may give you a little more headroom before you redline in a long chipper.",
+        "muaythai": "Between rounds your heart rate may settle from a lower baseline, though early withdrawal can make you feel jittery at the same time."
+      },
+      "kind": "gain",
+      "evidence": "moderate",
+      "sourceName": "Evidence of transient heart rate change after smoking cessation (PubMed 1570379)",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/1570379/",
+      "note": "Studies are small. In one, heart rate drifted back towards baseline by about 60 days; another found it still lower at 5 weeks. Treat the size and duration as uncertain."
+    },
+    {
+      "id": "tough-mood-focus",
+      "seconds": 172800,
+      "label": "2 days",
+      "title": "Tough patch: irritability and poor focus",
+      "body": "Withdrawal commonly brings irritability, restlessness, anxiety and trouble concentrating. In quitters followed over time, these mostly returned to pre-quit levels by about 30 days.",
+      "sports": {
+        "running": "Intervals that need you to hold a precise pace may feel mentally harder this week; an unstructured easy run can be a simpler win.",
+        "crossfit": "Technical lifts like snatches demand focus; you may want lighter technique work rather than chasing a max in the first fortnight.",
+        "muaythai": "Short temper in hard sparring is a real risk; many coaches would suggest technical drilling over hard rounds while you are edgy."
+      },
+      "kind": "tough",
+      "evidence": "strong",
+      "sourceName": "Hughes et al. 1992, Tobacco withdrawal in self-quitters",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/1401384/",
+      "note": "Withdrawal symptoms are well replicated. Short exercise bouts have been shown to reduce cravings and withdrawal symptoms, so training can help here."
+    },
+    {
+      "id": "tough-sleep",
+      "seconds": 259200,
+      "label": "3 days",
+      "title": "Tough patch: choppier sleep",
+      "body": "Sleep-lab studies show more awakenings and fragmented sleep during nicotine withdrawal. Less restful sleep can blunt recovery and make sessions feel harder for a while.",
+      "sports": {
+        "running": "If a tempo run feels oddly hard after a broken night, that may be sleep, not lost fitness; consider swapping it for an easy day.",
+        "crossfit": "Poor sleep can dull power output and grip; scaling intensity on rough nights may protect both progress and your quit.",
+        "muaythai": "Reaction time and defence slip when you sleep badly, so it may be a good week to avoid hard sparring after a bad night."
+      },
+      "kind": "tough",
+      "evidence": "moderate",
+      "sourceName": "Tobacco withdrawal and nicotine replacement influence objective measures of sleep",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/7673544/",
+      "note": "Small polysomnography studies, but consistent with self-reports. How long it lasts varies; nicotine replacement does not reliably fix it."
+    },
+    {
+      "id": "time-to-exhaustion",
+      "seconds": 604800,
+      "label": "1 week",
+      "title": "You may last longer at hard efforts",
+      "body": "In young male smokers who stopped for 6-7 days, treadmill time to exhaustion was significantly longer and heart rate was lower at most stages, even though VO2max itself did not change.",
+      "sports": {
+        "running": "A repeat of a known hard effort, such as a 5 km time trial, may feel a bit more sustainable with a slightly lower heart rate at the same pace.",
+        "crossfit": "Longer engine pieces like a 20-minute AMRAP may let you hold pace a little longer before you have to break.",
+        "muaythai": "Late rounds of pad work may feel slightly less draining, though your top-end aerobic ceiling is unlikely to have moved yet."
+      },
+      "kind": "gain",
+      "evidence": "emerging",
+      "sourceName": "Effects of abstinence from cigarette smoking on the cardiorespiratory capacity (PubMed 10694121)",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/10694121/",
+      "note": "A single small study of young men; the improvement was in endurance time and submaximal heart rate, not VO2max."
+    },
+    {
+      "id": "tough-colds-ulcers",
+      "seconds": 864000,
+      "label": "1-2 weeks",
+      "title": "Tough patch: cold symptoms and mouth ulcers",
+      "body": "Reports of cold symptoms and mouth ulcers rose in the first two weeks after quitting in one cohort, and around 40% of quitters in a larger study had mouth ulcers, mostly early and usually short-lived.",
+      "sports": {
+        "running": "If you get a head cold, the usual 'above the neck' caution applies; easy runs may be fine, hard sessions can wait.",
+        "crossfit": "A sore mouth can make eating enough protein after sessions annoying; soft foods and shakes may help you keep fuelling.",
+        "muaythai": "Mouth ulcers under a gum shield can sting in sparring; this is usually temporary, and the larger study found many cleared within 4 weeks."
+      },
+      "kind": "tough",
+      "evidence": "moderate",
+      "sourceName": "Ussher et al., Increase in common cold symptoms and mouth ulcers following smoking cessation",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/12612369/",
+      "note": "Mouth ulcers are replicated (PubMed 15370162). The cold-symptom rise comes mainly from one cohort, so it is less certain."
+    },
+    {
+      "id": "airway-clearing",
+      "seconds": 1209600,
+      "label": "2 weeks",
+      "title": "Airway clearing starts to recover",
+      "body": "Smoke slows the tiny hairs that sweep mucus out of your airways. In small studies, clearance improved from about day 15 after quitting and kept improving over months.",
+      "sports": {
+        "running": "Less mucus to clear may mean fewer stops to cough or spit on longer runs, especially in cold air.",
+        "crossfit": "Heavy breathing in burpee- or row-heavy workouts may bring up less phlegm as clearance improves.",
+        "muaythai": "Clearer airways can help when you breathe through your nose behind a guard and gum shield in clinch work."
+      },
+      "kind": "gain",
+      "evidence": "moderate",
+      "sourceName": "Reversibility of impaired nasal mucociliary clearance in smokers following a smoking cessation programme (PubMed 21545372)",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/21545372/",
+      "note": "Studies are small and measure nasal, not lung, clearance. Many people expect cough to get worse first, but a 2007 study (PubMed 17978996) found cough declined steadily in healthy quitters rather than spiking."
+    },
+    {
+      "id": "wound-healing",
+      "seconds": 2419200,
+      "label": "4 weeks",
+      "title": "Cuts and scrapes may heal better",
+      "body": "In surgical trials, about four weeks without smoking was linked to fewer wound infections. Better blood flow and immune function in the skin are the likely reasons.",
+      "sports": {
+        "running": "Blisters and chafing may settle a little more reliably, which matters when you are stacking long runs.",
+        "crossfit": "Torn hands from pull-ups and rope climbs may be less prone to infection as skin healing improves.",
+        "muaythai": "Shin scrapes, split knuckles and cuts from elbows or knees may be less likely to get infected."
+      },
+      "kind": "gain",
+      "evidence": "moderate",
+      "sourceName": "Sorensen et al. 2012, Wound healing and infection in surgery: systematic review and meta-analysis",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/22508785/",
+      "note": "Evidence is from surgical wounds; applying it to training scrapes is an extrapolation. The meta-analysis found fewer infections but no clear effect on other healing complications."
+    },
+    {
+      "id": "breathing-symptoms",
+      "seconds": 2592000,
+      "label": "1 month",
+      "title": "Day-to-day breathing symptoms ease",
+      "body": "In a sample of quitters, the share who often coughed without a cold fell from about half to around one in seven at 30 days. Fewer symptoms may make hard breathing feel less irritating.",
+      "sports": {
+        "running": "Hills and fast finishes may provoke less coughing afterwards.",
+        "crossfit": "You may notice less hacking after high-rep wall balls, rowing or assault bike sprints.",
+        "muaythai": "Fewer coughing fits after a hard round can make the one-minute rest more useful."
+      },
+      "kind": "gain",
+      "evidence": "emerging",
+      "sourceName": "Short-term change in self-reported COPD symptoms after smoking cessation in an internet sample (PubMed 19926745)",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/19926745/",
+      "note": "Self-reported symptoms in an online sample; a college-student study (PubMed 35927867) found a similar drop in respiratory symptom days."
+    },
+    {
+      "id": "tough-weight-gain",
+      "seconds": 3628800,
+      "label": "1-3 months",
+      "title": "Tough patch: likely weight gain",
+      "body": "Quitters gained about 1 kg on average by one month and about 4-5 kg by a year, mostly in the first three months. It varies widely: some people lose weight, a minority gain much more.",
+      "sports": {
+        "running": "A couple of extra kilos can add effort on hills and long runs, so steady eating habits may matter more than usual for now.",
+        "crossfit": "Extra mass is less of a problem on the barbell, but you may feel it in pull-ups, burpees and handstand work.",
+        "muaythai": "If you compete, plan your weight class early; it is safer to budget a few extra kilos than to cut hard during a quit."
+      },
+      "kind": "tough",
+      "evidence": "strong",
+      "sourceName": "Aubin et al. 2012, BMJ: Weight gain in smokers after quitting cigarettes, meta-analysis",
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/books/NBK98952/",
+      "note": "Averages from 62 cessation trials. Placed at 1-3 months because that is when most gain occurs; the one-month figure is around 1 kg."
+    },
+    {
+      "id": "muscle-building",
+      "seconds": 7776000,
+      "label": "3 months",
+      "title": "Muscle building may respond better",
+      "body": "Smokers had lower muscle protein synthesis and higher levels of genes that limit muscle growth (myostatin, MAFbx) than non-smokers. Removing that brake may help strength training pay off.",
+      "sports": {
+        "running": "Strength work for injury-proofing, such as calf and glute exercises, may give a slightly better return over a training block.",
+        "crossfit": "A full strength cycle on squats and presses may build muscle a little more effectively without smoking working against it.",
+        "muaythai": "Neck, core and hip strength for the clinch may come along more readily, though skill and conditioning still lead."
+      },
+      "kind": "gain",
+      "evidence": "emerging",
+      "sourceName": "Petersen et al. 2007, Am J Physiol Endocrinol Metab",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/17609255/",
+      "note": "A small smoker-versus-non-smoker comparison, not a study of quitters. The 3-month placement is a reasoned estimate of one training block, not a measured timing."
+    },
+    {
+      "id": "injury-risk",
+      "seconds": 15552000,
+      "label": "6 months",
+      "title": "Injury risk likely falls, but slowly",
+      "body": "Smokers have more overuse injuries in military training, and the extra risk persisted through weeks of enforced abstinence. Bone and tissue repair are also slower in smokers, so this benefit builds gradually.",
+      "sports": {
+        "running": "Shin splints and stress injuries are the classic overuse problems; mileage should still build gradually even after quitting.",
+        "crossfit": "High-volume jumping and running in metcons tend to drive overuse injuries, so keep progressing volume carefully.",
+        "muaythai": "Kicking and running volume load shins and feet; slower tissue repair is one more reason not to ramp up too fast early on."
+      },
+      "kind": "gain",
+      "evidence": "emerging",
+      "sourceName": "Meta-analysis of cigarette smoking and musculoskeletal injuries in military training, 2017",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/28614193/",
+      "note": "Pooled rate ratio about 1.3 for smokers. Recruits had already stopped for basic training, so the data show risk lingers; when it normalises is unknown. 6 months is a reasoned placement. Fracture non-union is also more common in smokers (PMC8571530)."
+    },
+    {
+      "id": "blood-vessels",
+      "seconds": 31536000,
+      "label": "1 year",
+      "title": "Blood vessels widen more readily",
+      "body": "In a one-year trial, artery dilation (flow-mediated dilation) improved in people who quit but not in those who kept smoking, despite weight gain. Healthier vessels may help deliver blood to working muscle.",
+      "sports": {
+        "running": "Better vessel function may support steady blood flow to the legs over long aerobic runs.",
+        "crossfit": "Blood flow to muscles under repeated high-rep sets may be supported a little better.",
+        "muaythai": "Circulation through five hard rounds may benefit slightly, adding to the conditioning you build in the gym."
+      },
+      "kind": "gain",
+      "evidence": "moderate",
+      "sourceName": "Johnson et al. 2010, JACC: Effects of smoking and smoking cessation on endothelial function",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/20236788/",
+      "note": "Average improvement was about 1 percentage point. A smaller 12-week cohort also saw improvement, so some change may come earlier. The link to exercise performance is inferred."
+    },
+    {
+      "id": "lung-function",
+      "seconds": 31536000,
+      "label": "1 year",
+      "title": "Lung function improves a little",
+      "body": "In the Lung Health Study, quitters' FEV1 rose modestly in the first year while it fell in continuing smokers. The bigger, long-term payoff is a slower decline over the years that follow.",
+      "sports": {
+        "running": "Do not expect a sudden jump in pace from this alone; it mainly protects your breathing capacity for future seasons.",
+        "crossfit": "Small lung function gains may help in long rowing or running-based workouts, but conditioning work will matter more.",
+        "muaythai": "A slight improvement in breathing capacity may support you in late rounds, alongside roadwork and pad conditioning."
+      },
+      "kind": "gain",
+      "evidence": "moderate",
+      "sourceName": "Connett et al. 2003, Am J Epidemiol: Lung Health Study",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/12777360/",
+      "note": "Participants were middle-aged smokers with mild airflow limitation; gains were larger in women (about 3.7% vs 1.6% of predicted). Young, fit people may see less change."
+    }
+  ],
+  "caveats": [
+    "Everyone is different: how much and how fast you notice changes depends on how long and how much you smoked, your age and your health.",
+    "Training itself drives most fitness gains; quitting removes a handicap rather than adding fitness on its own.",
+    "In the first week or two, withdrawal, poor sleep and irritability can make hard sessions feel harder, not easier, so lighter technical work is a reasonable choice.",
+    "This is general information from research, not medical advice; talk to a doctor if you have heart or lung symptoms."
+  ],
+  "sources": [
+    { "name": "Population pharmacokinetic analysis of carboxyhaemoglobin in adult smokers, 2007", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2291280" },
+    { "name": "Evidence of transient heart rate change after smoking cessation", "url": "https://pubmed.ncbi.nlm.nih.gov/1570379/" },
+    { "name": "Drop in heart rate following smoking cessation may be permanent", "url": "https://pubmed.ncbi.nlm.nih.gov/3131805/" },
+    { "name": "Hughes et al. 1992, Tobacco withdrawal in self-quitters", "url": "https://pubmed.ncbi.nlm.nih.gov/1401384/" },
+    { "name": "Effect of a short bout of exercise on tobacco withdrawal symptoms and desire to smoke", "url": "https://pubmed.ncbi.nlm.nih.gov/11685385/" },
+    { "name": "Tobacco withdrawal and nicotine replacement influence objective measures of sleep", "url": "https://pubmed.ncbi.nlm.nih.gov/7673544/" },
+    { "name": "Effects of abstinence from cigarette smoking on the cardiorespiratory capacity", "url": "https://pubmed.ncbi.nlm.nih.gov/10694121/" },
+    { "name": "Ussher et al., Increase in common cold symptoms and mouth ulcers following smoking cessation", "url": "https://pubmed.ncbi.nlm.nih.gov/12612369/" },
+    { "name": "The relationship between smoking cessation and mouth ulcers", "url": "https://pubmed.ncbi.nlm.nih.gov/15370162/" },
+    { "name": "Reversibility of impaired nasal mucociliary clearance in smokers following a smoking cessation programme", "url": "https://pubmed.ncbi.nlm.nih.gov/21545372/" },
+    { "name": "Cough following initiation of smoking abstinence, 2007", "url": "https://pubmed.ncbi.nlm.nih.gov/17978996/" },
+    { "name": "Sorensen et al. 2012, Wound healing and infection in surgery: systematic review and meta-analysis", "url": "https://pubmed.ncbi.nlm.nih.gov/22508785/" },
+    { "name": "Short-term change in self-reported COPD symptoms after smoking cessation in an internet sample", "url": "https://pubmed.ncbi.nlm.nih.gov/19926745/" },
+    { "name": "Respiratory symptoms after smoking cessation among college students", "url": "https://pubmed.ncbi.nlm.nih.gov/35927867/" },
+    { "name": "Aubin et al. 2012, BMJ: Weight gain in smokers after quitting cigarettes (DARE record)", "url": "https://www.ncbi.nlm.nih.gov/books/NBK98952/" },
+    { "name": "Petersen et al. 2007, Smoking impairs muscle protein synthesis and increases myostatin and MAFbx expression", "url": "https://pubmed.ncbi.nlm.nih.gov/17609255/" },
+    { "name": "Meta-analysis of cigarette smoking and musculoskeletal injuries in military training, 2017", "url": "https://pubmed.ncbi.nlm.nih.gov/28614193/" },
+    { "name": "The influence of smoking and alcohol on bone healing: systematic review and meta-analysis", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8571530/" },
+    { "name": "Johnson et al. 2010, Effects of smoking and smoking cessation on endothelial function: 1-year RCT outcomes", "url": "https://pubmed.ncbi.nlm.nih.gov/20236788/" },
+    { "name": "Connett et al. 2003, Changes in smoking status affect women more than men: Lung Health Study", "url": "https://pubmed.ncbi.nlm.nih.gov/12777360/" }
+  ]
+}
