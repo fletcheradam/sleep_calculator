@@ -8,7 +8,7 @@ const src = (f) => fs.readFileSync(path.join(__dirname, 'src', f), 'utf8');
 const json = (f) => JSON.parse(src(f));
 const safe = (s) => s.replace(/<\/script/gi, '<\\/script').replace(/[\u2028\u2029]/g, '');
 
-const data = { milestones: json('milestones.json'), methods: json('methods.json'), copy: json('copy.json') };
+const data = { milestones: json('milestones.json'), methods: json('methods.json'), copy: json('copy.json'), training: fs.existsSync(path.join(__dirname, 'src', 'training.json')) ? json('training.json') : {} };
 const games = ['games/surf.js', 'games/breath.js'].map(src).join('\n');
 
 const fragment = src('shell.html')

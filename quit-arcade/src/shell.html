@@ -103,6 +103,8 @@ a { color: var(--blue); }
 .track .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .track li.locked h3, .track li.locked p { color: var(--dim); }
 .chip { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; border: 1px solid currentColor; padding: 3px 5px; color: var(--blue); white-space: nowrap; }
+.sport-line { font-size: 13px; border-left: 3px solid var(--blue); padding-left: 8px; }
+.sport-line b { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--blue); margin-right: 6px; }
 .chip.tough { color: var(--pink); } .chip.strong { color: var(--mint); } .chip.moderate { color: var(--amber); } .chip.emerging { color: var(--dim); }
 .src { font-size: 12px; color: var(--dim); }
 .src a { color: var(--dim); }
@@ -177,6 +179,19 @@ footer { font-size: 13px; color: var(--dim); display: flex; flex-direction: colu
     <div class="bar"><i id="next-fill"></i></div>
   </section>
 
+  <section class="panel" aria-labelledby="train-h">
+    <div class="row between"><h2 id="train-h">TRAINING GAINS</h2><span class="label" id="train-count"></span></div>
+    <p class="dim small">What quitting does for the engine you train with, and when. Pick your sports to see where each change tends to show up.</p>
+    <div class="chips" id="sports"></div>
+    <ol class="track" id="train-track"></ol>
+    <div id="train-caveats" class="src"></div>
+    <div class="method">
+      <h3>MY BENCHMARKS</h3>
+      <p class="dim small">The map above is what studies found on average. This is your own proof. Log a baseline now and repeat the same test every week or two.</p>
+      <div id="bench"></div>
+    </div>
+  </section>
+
   <section class="panel" aria-labelledby="track-h">
     <div class="row between"><h2 id="track-h">BODY RECOVERY MAP</h2><span class="label" id="track-count"></span></div>
     <p class="dim small">Each level opens on its own as the clock runs. Timings are typical figures from public-health bodies; your body may run a little ahead or behind.</p>
@@ -212,6 +227,15 @@ var D = window.QUIT_DATA || {};
 var MS = ((D.milestones || {}).milestones || []).slice().sort(function (a, b) { return a.seconds - b.seconds; });
 var PER_CIG = (D.milestones || {}).perCigarette || null;
 var METHODS = D.methods || {};
+var TRAIN = D.training || {};
+var TR = (TRAIN.gains || []).slice().sort(function (a, b) { return a.seconds - b.seconds; });
+var SPORTS = [['crossfit', 'CrossFit'], ['muaythai', 'Muay Thai'], ['running', 'Running']];
+var BENCH = [
+  { id: 'rhr', name: 'Resting heart rate', unit: 'bpm', lower: true, ph: '62' },
+  { id: 'run', name: 'Run time, same route', unit: 'time', lower: true, ph: '27:30' },
+  { id: 'wod', name: 'Benchmark WOD time', unit: 'time', lower: true, ph: '8:45' },
+  { id: 'rounds', name: 'Hard rounds on pads or bag before gassing', unit: 'rounds', lower: false, ph: '4' }
+];
 var COPY = D.copy || {};
 var PALETTE = { bg: '#17122b', panel: '#221a40', ink: '#f3ecff', dim: '#a79cc9', pink: '#ff6b9a', mint: '#4fe3c1', amber: '#ffc857', red: '#ff5d5d', blue: '#6aa9ff' };
 var FONTS = { display: 'Silkscreen, monospace', body: 'Rubik, system-ui, sans-serif' };
@@ -227,7 +251,7 @@ var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)'
 /* ---------- state ---------- */
 function defaults() {
   return { v: 1, quitAt: null, cigsPerDay: 15, packPrice: 0, packSize: 20, currency: guessCurrency(), xp: 0,
-    cravings: [], slips: [], plans: [], reasons: [], rewards: [], seen: [], xpFor: [], bestMs: 0, hi: {}, muted: true, updatedAt: 0 };
+    cravings: [], slips: [], plans: [], reasons: [], rewards: [], bench: [], sports: ['crossfit', 'muaythai', 'running'], seen: [], xpFor: [], bestMs: 0, hi: {}, muted: true, updatedAt: 0 };
 }
 function guessCurrency() {
   var loc = (navigator.language || '').toUpperCase();
@@ -239,7 +263,7 @@ function normalize(o) {
   var d = defaults(), k;
   if (!o || typeof o !== 'object') return d;
   for (k in d) if (o[k] !== undefined && o[k] !== null || k === 'quitAt') if (o[k] !== undefined) d[k] = o[k];
-  ['cravings', 'slips', 'plans', 'reasons', 'rewards', 'seen', 'xpFor'].forEach(function (a) { if (!Array.isArray(d[a])) d[a] = []; });
+  ['cravings', 'slips', 'plans', 'reasons', 'rewards', 'bench', 'sports', 'seen', 'xpFor'].forEach(function (a) { if (!Array.isArray(d[a])) d[a] = []; });
   if (typeof d.hi !== 'object' || !d.hi) d.hi = {};
   return d;
 }
@@ -359,7 +383,7 @@ function renderStats() {
   $('lvl-xp').textContent = S.xp + ' / ' + hi + ' XP';
   $('xp-fill').style.width = Math.min(100, (S.xp - lo) / (hi - lo) * 100) + '%';
 }
-var lastNextId = null;
+var lastNextId = null, lastTrainId = null;
 function tick() {
   var sec = Math.floor(elapsedSec());
   $('c-d').textContent = Math.floor(sec / 86400);
@@ -370,6 +394,8 @@ function tick() {
   var nx = MS.filter(function (m) { return m.seconds > sec; })[0];
   var id = nx ? nx.id : '_end';
   if (id !== lastNextId) { lastNextId = id; renderNext(nx); renderTrack(); }
+  var tn = TR.filter(function (m) { return m.seconds > sec; })[0], tid = tn ? tn.id : '_end';
+  if (tid !== lastTrainId) { lastTrainId = tid; renderTraining(); }
   if (nx) {
     var prev = 0; MS.forEach(function (m) { if (m.seconds <= sec) prev = m.seconds; });
     $('next-count').textContent = 'in ' + fmtDur(nx.seconds - sec);
@@ -416,6 +442,92 @@ function renderTrack() {
         srcLink(m.sourceName, m.sourceUrl))));
   });
   $('track-count').textContent = done + ' / ' + MS.length + ' open';
+}
+
+/* ---------- training ---------- */
+function renderSports() {
+  var el = clear($('sports'));
+  SPORTS.forEach(function (sp) {
+    var on = S.sports.indexOf(sp[0]) >= 0;
+    el.appendChild(h('button', { class: 'btn tiny', type: 'button', 'aria-pressed': String(on), text: sp[1], onclick: function () {
+      if (on) S.sports = S.sports.filter(function (x) { return x !== sp[0]; }); else S.sports.push(sp[0]);
+      save(); renderSports(); renderTraining();
+    } }));
+  });
+}
+function renderTraining() {
+  var sec = elapsedSec(), el = clear($('train-track')), done = 0, curMarked = false;
+  TR.forEach(function (m) {
+    var isDone = m.seconds <= sec, isCur = !isDone && !curMarked, tough = m.kind === 'tough';
+    if (isDone) done++; if (isCur) curMarked = true;
+    var body = h('div', { class: 'body' },
+      h('div', { class: 'row' },
+        h('span', { class: 'when', text: m.label + (isDone ? (tough ? ' · you are past this point' : ' · in play') : ' · in ' + fmtDur(m.seconds - sec)) }),
+        tough ? h('span', { class: 'chip tough', text: 'tough patch' }) : null,
+        m.evidence ? h('span', { class: 'chip ' + m.evidence, text: 'evidence: ' + m.evidence }) : null),
+      h('h3', { text: m.title }),
+      h('p', { class: 'small', text: m.body }));
+    SPORTS.forEach(function (sp) {
+      if (S.sports.indexOf(sp[0]) < 0 || !m.sports || !m.sports[sp[0]]) return;
+      body.appendChild(h('p', { class: 'sport-line' }, h('b', { text: sp[1] }), m.sports[sp[0]]));
+    });
+    if (m.note) body.appendChild(h('p', { class: 'src', text: m.note }));
+    var s = srcLink(m.sourceName, m.sourceUrl); if (s) body.appendChild(s);
+    el.appendChild(h('li', { class: isDone ? 'done' : isCur ? 'cur' : 'locked' }, h('span', { class: 'node', 'aria-hidden': 'true' }), body));
+  });
+  $('train-count').textContent = TR.length ? done + ' / ' + TR.length + ' in play' : '';
+  var cv = clear($('train-caveats'));
+  (TRAIN.caveats || []).forEach(function (c) { cv.appendChild(h('p', { text: c })); });
+}
+function parseBench(b, v) {
+  v = String(v).trim();
+  if (b.unit === 'time') {
+    var m = /^(?:(\d+):)?(\d{1,3}):([0-5]\d)$/.exec(v);
+    return m ? (+(m[1] || 0)) * 3600 + (+m[2]) * 60 + (+m[3]) : NaN;
+  }
+  return /^\d+(\.\d+)?$/.test(v) ? +v : NaN;
+}
+function fmtBench(b, n) {
+  if (b.unit !== 'time') return n + ' ' + b.unit;
+  var hr = Math.floor(n / 3600), mn = Math.floor(n % 3600 / 60);
+  return (hr ? hr + ':' + pad(mn) : mn) + ':' + pad(Math.round(n % 60));
+}
+function renderBench() {
+  var el = clear($('bench'));
+  el.style.cssText = 'display:flex;flex-direction:column;gap:12px';
+  var sel = h('select', { id: 'bench-type' }, BENCH.map(function (b) { return h('option', { value: b.id, text: b.name }); }));
+  var val = h('input', { type: 'text', id: 'bench-value', inputmode: 'text', maxlength: '9', placeholder: BENCH[0].ph });
+  var lab = h('label', { class: 'label', for: 'bench-value', text: 'Result (bpm)' });
+  var err = h('p', { class: 'small', style: 'color:var(--red)', role: 'alert' });
+  function cur() { return BENCH.filter(function (b) { return b.id === sel.value; })[0]; }
+  sel.addEventListener('change', function () { var b = cur(); val.placeholder = b.ph; lab.textContent = 'Result (' + (b.unit === 'time' ? 'min:sec' : b.unit) + ')'; err.textContent = ''; });
+  var form = h('form', { class: 'inline' },
+    h('div', { class: 'field', style: 'flex-grow:2' }, h('label', { class: 'label', for: 'bench-type', text: 'Test' }), sel),
+    h('div', { class: 'field narrow' }, lab, val),
+    h('button', { class: 'btn mint', type: 'submit', text: 'LOG IT' }));
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); var b = cur(), n = parseBench(b, val.value);
+    if (isNaN(n) || n <= 0) { err.textContent = b.unit === 'time' ? 'Enter the time as minutes and seconds, like ' + b.ph + '.' : 'Enter a number, like ' + b.ph + '.'; val.focus(); return; }
+    S.bench.push({ t: Date.now(), type: b.id, v: n }); addXp(20); save(); renderStats(); renderBench();
+    toast('Logged: ' + b.name + ' ' + fmtBench(b, n));
+  });
+  el.appendChild(form); el.appendChild(err);
+  var rows = [];
+  BENCH.forEach(function (b) {
+    var es = S.bench.filter(function (x) { return x.type === b.id; });
+    if (!es.length) return;
+    var first = es[0], last = es[es.length - 1], diff = last.v - first.v, better = b.lower ? diff < 0 : diff > 0;
+    var change = es.length < 2 ? 'Baseline set. Repeat the same test in a week or two.'
+      : diff === 0 ? 'Level with your baseline over ' + fmtDur((last.t - first.t) / 1000) + '.'
+      : fmtBench(b, Math.abs(diff)) + (b.unit === 'time' ? (diff < 0 ? ' faster' : ' slower') : (diff < 0 ? ' lower' : ' higher')) + ' than your baseline, ' + fmtDur((last.t - first.t) / 1000) + ' on.';
+    rows.push(h('li', {}, h('div', {},
+      h('span', { class: 'label', text: b.name + ' · ' + es.length + (es.length === 1 ? ' entry' : ' entries') }),
+      h('span', { style: 'font:500 20px/1.2 var(--mono)' }, fmtBench(b, first.v), es.length > 1 ? ' → ' : '', es.length > 1 ? h('span', { style: 'color:var(--' + (better ? 'mint' : 'ink') + ')', text: fmtBench(b, last.v) }) : null),
+      h('span', { class: 'small dim', text: change })),
+      h('button', { class: 'btn tiny ghost', type: 'button', text: 'UNDO LAST', onclick: function () { S.bench.splice(S.bench.lastIndexOf(last), 1); save(); renderBench(); } })));
+  });
+  el.appendChild(rows.length ? h('ul', { class: 'list' }, rows)
+    : h('p', { class: 'dim small', text: 'Nothing logged yet. Good first baselines: resting heart rate on waking, a timed run on a route you can repeat, one benchmark WOD, and how many hard rounds you can hold on the pads.' }));
 }
 
 /* ---------- overlay ---------- */
@@ -757,7 +869,7 @@ function renderAll() {
   $('greeting').textContent = isDemo() ? '' : (pick(COPY.dailyCheckIn, Math.floor(Date.now() / 86400000)) || '') ;
   $('btn-sound').textContent = S.muted ? 'SOUND OFF' : 'SOUND ON';
   $('btn-sound').setAttribute('aria-pressed', String(!S.muted));
-  lastNextId = null; renderStats(); renderGames(); renderTabs(); renderTab(); tick();
+  lastNextId = null; lastTrainId = null; renderSports(); renderBench(); renderStats(); renderGames(); renderTabs(); renderTab(); tick();
   if (S.slips.length && best) $('greeting').title = 'Best streak ' + fmtDur(best / 1000);
 }
 $('btn-sos').addEventListener('click', cravingStart);
