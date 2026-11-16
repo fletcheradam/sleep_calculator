@@ -1,0 +1,265 @@
+{
+  "methods": [
+    {
+      "id": "medication-support",
+      "name": "Stop-smoking medicine",
+      "tagline": "The biggest boost you can give yourself",
+      "what": "Licensed stop-smoking medicines (nicotine replacement, varenicline, cytisine, bupropion) raise long-term quit rates in hundreds of trials. Using one together with behavioural support works best of all. Nothing in this app comes close to that evidence.",
+      "howTo": "Ask a pharmacist, doctor or your national quitline which medicine suits you, and use it alongside the tools here.",
+      "evidence": "strong",
+      "sourceName": "Cochrane 2016 (combined treatment); Cochrane 2023 (medicines)",
+      "sourceUrl": "https://cochranelibrary.com/cdsr/doi/10.1002/14651858.CD008286.pub3/information"
+    },
+    {
+      "id": "social-support",
+      "name": "Get people on your side",
+      "tagline": "You do not have to do this alone",
+      "what": "Counselling from a trained adviser, in person or by phone, reliably raises quit rates, and proactive quitline calls help further. Free quitlines exist in most countries. Telling the people around you, and asking for specific help, is also part of standard stop-smoking support.",
+      "howTo": "Call or text your quitline today, and tell one person your quit date and how they can help.",
+      "evidence": "strong",
+      "sourceName": "Cochrane 2017 (individual counselling); Cochrane 2019 (telephone counselling)",
+      "sourceUrl": "https://cochranelibrary.com/cdsr/doi/10.1002/14651858.CD001292.pub3/information"
+    },
+    {
+      "id": "rewards",
+      "name": "Rewards and money saved",
+      "tagline": "Watch what quitting puts back in your pocket",
+      "what": "A large Cochrane review found that rewards for staying smoke-free raise quit rates, and the effect lasted after rewards stopped. Those trials used real incentives for verified abstinence; tracking money saved and treating yourself is a related idea that has been tested far less.",
+      "howTo": "Pick a treat for day 1, week 1 and month 1, paid for from the money you are not spending on cigarettes.",
+      "evidence": "moderate",
+      "sourceName": "Cochrane 2025 (incentives)",
+      "sourceUrl": "https://ueaeprints.uea.ac.uk/id/eprint/98253"
+    },
+    {
+      "id": "if-then-plans",
+      "name": "If-then plans",
+      "tagline": "Decide now what you will do when a trigger hits",
+      "what": "An if-then plan links a trigger to a set response, such as: if I finish dinner, then I get up and wash the dishes. A meta-analysis of 12 studies found these plans raised quit rates, but the studies were few and varied, so the true size of the benefit is uncertain.",
+      "howTo": "Write one plan for your strongest trigger: \"If [situation], then I will [action].\" Say it out loud once.",
+      "evidence": "moderate",
+      "sourceName": "McWilliams et al. 2019, Health Psychology",
+      "sourceUrl": "https://eprints.whiterose.ac.uk/154864/"
+    },
+    {
+      "id": "move-your-body",
+      "name": "Move your body",
+      "tagline": "A few minutes of movement can shrink a craving",
+      "what": "Pooled lab studies show that short bouts of activity, like a brisk walk, reliably lower cravings for a while. Adding exercise programmes to quit support has not been shown to raise long-term quit rates, so treat movement as a craving tool, not a cure.",
+      "howTo": "Right now, walk briskly, climb stairs or do squats for 5 to 10 minutes, then check how strong the urge is.",
+      "evidence": "moderate",
+      "sourceName": "Haasova et al. 2013, Addiction; Cochrane 2019 (exercise)",
+      "sourceUrl": "https://researchportal.plymouth.ac.uk/en/publications/the-acute-effects-of-physical-activity-on-cigarette-cravings-syst-2/"
+    },
+    {
+      "id": "not-a-puff",
+      "name": "Not a puff",
+      "tagline": "From quit day: not one puff, not one drag",
+      "what": "UK stop-smoking services teach a strict rule of no smoking at all after quit day. Studies of quitters find that most people who lapse go on to relapse, and the rule is linked to better results than cutting down. The evidence is mostly observational, not from trials of the rule itself.",
+      "howTo": "Treat \"just one\" as the start of smoking again. When the thought comes, say: not a puff.",
+      "evidence": "moderate",
+      "sourceName": "NCSCT briefing: the 'not a puff' rule",
+      "sourceUrl": "https://www.ncsct.co.uk/publications/not_a_puff_rule"
+    },
+    {
+      "id": "text-support",
+      "name": "Text-message support",
+      "tagline": "Let regular messages keep you on track",
+      "what": "Automated text-message programmes raised quit rates compared with minimal support in a Cochrane review, and helped when added to other support. Evidence for smartphone apps on their own is still weak, including for apps like this one.",
+      "howTo": "Sign up for your country's free quit-by-text service if it has one; many quitlines offer it.",
+      "evidence": "moderate",
+      "sourceName": "Cochrane 2019 (mobile phone interventions)",
+      "sourceUrl": "https://cochranelibrary.com/cdsr/doi/10.1002/14651858.CD006611.pub5/information"
+    },
+    {
+      "id": "delay-distract",
+      "name": "Delay and distract",
+      "tagline": "Play a quick game while the urge passes",
+      "what": "Cravings usually fade within minutes. Small studies found that playing a visual puzzle game like Tetris for 3 minutes lowered craving strength, including for nicotine. These are small, short studies; they show cravings ease, not that games help people quit.",
+      "howTo": "Start a 3-minute game now. When it ends, rate your craving again.",
+      "evidence": "emerging",
+      "sourceName": "Skorka-Brown et al. 2015, Addictive Behaviors",
+      "sourceUrl": "https://researchportal.plymouth.ac.uk/en/publications/playing-tetris-decreases-drug-and-other-cravings-in-real-world-se-2/"
+    },
+    {
+      "id": "paced-breathing",
+      "name": "Slow breathing",
+      "tagline": "Slow your breath and let the urge settle",
+      "what": "In a small lab study, smokers who did a few minutes of controlled deep breathing had less craving and tension during abstinence. Other studies are mixed and the effects are small and short-lived, but it is free, safe and available anywhere.",
+      "howTo": "Breathe in through your nose for 4 seconds and out slowly for 6. Repeat 10 times.",
+      "evidence": "emerging",
+      "sourceName": "McClernon et al. 2004, Addictive Behaviors",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/15135559/"
+    },
+    {
+      "id": "urge-surfing",
+      "name": "Urge surfing",
+      "tagline": "Ride the craving like a wave until it breaks",
+      "what": "Urge surfing means noticing a craving's feelings without acting on them, as it rises, peaks and falls. In one trial, students given brief instructions smoked less over the next week. A Cochrane review found no clear evidence that mindfulness programmes raise quit rates.",
+      "howTo": "Notice where you feel the urge in your body, describe it to yourself, and breathe with it until it passes.",
+      "evidence": "emerging",
+      "sourceName": "Bowen & Marlatt 2009, Psychology of Addictive Behaviors",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/20025372/"
+    },
+    {
+      "id": "self-monitoring",
+      "name": "Log your cravings",
+      "tagline": "Spot your triggers by writing them down",
+      "what": "Keeping track of when and where cravings hit is a standard part of stop-smoking support, and it helps you write better if-then plans. It has not been well tested on its own, so it is best seen as a helper for other methods.",
+      "howTo": "Each time a craving comes, log the time, place, mood and how strong it was from 1 to 10.",
+      "evidence": "emerging",
+      "sourceName": "NHS Better Health: understand your triggers",
+      "sourceUrl": "https://www.nhs.uk/better-health/quit-smoking/staying-smoke-free/understand-your-smoking-triggers-and-cravings/"
+    },
+    {
+      "id": "reasons-list",
+      "name": "Your reasons",
+      "tagline": "Remind yourself what you gain by quitting",
+      "what": "Keeping your own reasons to hand is standard advice. One trial found that messages about the benefits of quitting led to more people staying quit than messages about the harms of smoking. That is a single study, so focusing on gains is a reasonable choice, not a proven one.",
+      "howTo": "Write three things you gain by quitting, like more money, easier breathing or time with family, and read them during a craving.",
+      "evidence": "emerging",
+      "sourceName": "Toll et al. 2007, Psychology of Addictive Behaviors",
+      "sourceUrl": "https://news.yale.edu/2007/12/06/accentuating-positive-more-effective-inspiring-smokers-quit"
+    },
+    {
+      "id": "slip-recovery",
+      "name": "Bounce back from a slip",
+      "tagline": "A slip is a moment, not the end of your quit",
+      "what": "Relapse research describes an 'abstinence violation effect', where one slip leads to 'I've blown it' and giving up. One study found that confidence after a lapse mattered more than guilt. Being kind to yourself and getting straight back on track is sensible advice but has not been well tested.",
+      "howTo": "If you slip, throw the rest away, note what triggered it, make an if-then plan for next time, and carry on.",
+      "evidence": "emerging",
+      "sourceName": "Kirchner, Shiffman & Wileyto 2011",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3296289"
+    }
+  ],
+  "cravingFacts": [
+    {
+      "text": "The urge to smoke usually lasts only a few minutes.",
+      "sourceName": "National Cancer Institute, Clearing the Air",
+      "sourceUrl": "https://smokefree.gov/sites/default/files/pdf/clearing-the-air-accessible.pdf"
+    },
+    {
+      "text": "Cravings pass, and riding one out does not cost you the progress you have made.",
+      "sourceName": "Smokefree.gov: How to manage cravings",
+      "sourceUrl": "https://smokefree.gov/challenges-when-quitting/cravings-triggers/how-manage-cravings"
+    },
+    {
+      "text": "Even a short burst of activity can reduce the urge to smoke.",
+      "sourceName": "Smokefree.gov: Fight cravings with exercise",
+      "sourceUrl": "https://smokefree.gov/challenges-when-quitting/cravings-triggers/fight-cravings-exercise"
+    },
+    {
+      "text": "Withdrawal is usually strongest in the first week, especially the first 3 days.",
+      "sourceName": "NHS Better Health: managing withdrawal",
+      "sourceUrl": "https://www.nhs.uk/better-health/quit-smoking/staying-smoke-free/managing-nicotine-withdrawal-symptoms"
+    },
+    {
+      "text": "On average, withdrawal symptoms ease within 3 to 4 weeks.",
+      "sourceName": "NHS Better Health: managing withdrawal",
+      "sourceUrl": "https://www.nhs.uk/better-health/quit-smoking/staying-smoke-free/managing-nicotine-withdrawal-symptoms"
+    },
+    {
+      "text": "As time passes, cravings come further and further apart.",
+      "sourceName": "National Cancer Institute fact sheet",
+      "sourceUrl": "https://www.cancer.gov/cancertopics/factsheet/Tobacco/symptoms-triggers-quitting"
+    },
+    {
+      "text": "Withdrawal symptoms fade as long as you stay smoke-free.",
+      "sourceName": "CDC: 7 common withdrawal symptoms",
+      "sourceUrl": "https://www.cdc.gov/tobacco/campaign/tips/quit-smoking/7-common-withdrawal-symptoms/index.html"
+    },
+    {
+      "text": "Quitting at any age improves your health and can add up to a decade to your life.",
+      "sourceName": "US Surgeon General 2020",
+      "sourceUrl": "https://www.hhs.gov/surgeongeneral/reports-and-publications/tobacco/2020-cessation-sgr-factsheet-key-findings/index.html"
+    },
+    {
+      "text": "Medicine plus support nearly doubles your chance of quitting compared with brief advice.",
+      "sourceName": "Cochrane 2016 (combined treatment)",
+      "sourceUrl": "https://cochranelibrary.com/cdsr/doi/10.1002/14651858.CD008286.pub3/information"
+    }
+  ],
+  "medication": {
+    "summary": "Cochrane reviews find that nicotine replacement therapy (patches, gum, lozenges, sprays) raises long-term quit rates by about 50 to 60%, bupropion by about 60%, and varenicline and cytisine roughly double the odds of quitting; using a patch together with a fast-acting form works better than one form alone. Combining any of these with behavioural support, such as counselling or a quitline, gives the best results of all, nearly doubling quit rates compared with brief advice. Not every medicine is available or suitable everywhere (cytisine is not sold in many countries), and some are not suitable in pregnancy or with certain health conditions. Talk to a pharmacist, doctor or quitline adviser to choose what is right for you; this app does not give dosing advice.",
+    "sourceName": "Cochrane 2023 component network meta-analysis (Lindson et al.)",
+    "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/37696529/"
+  },
+  "quitlines": [
+    {
+      "country": "South Africa",
+      "name": "National Council Against Smoking (NCAS) Quitline",
+      "contact": "011 720 3145 (office hours; not toll-free)",
+      "sourceUrl": "https://cansa.org.za/cansa-offers-support-to-smokers-during-lockdown-and-beyond/"
+    },
+    {
+      "country": "United Kingdom",
+      "name": "NHS Smokefree National Helpline (England)",
+      "contact": "0300 123 1044 (England). Scotland, Wales and Northern Ireland: see nhs.uk support options",
+      "sourceUrl": "https://www.nhs.uk/better-health/quit-smoking/ready-to-quit-smoking/explore-your-support-options/"
+    },
+    {
+      "country": "United States",
+      "name": "1-800-QUIT-NOW (connects to your state quitline)",
+      "contact": "1-800-784-8669; Spanish 1-855-335-3569",
+      "sourceUrl": "https://www.cdc.gov/tobacco/campaign/tips/quit-smoking/quitline/index.html"
+    },
+    {
+      "country": "Canada",
+      "name": "Pan-Canadian quitline (connects to your province or territory)",
+      "contact": "1-866-366-3667",
+      "sourceUrl": "https://www.canada.ca/en/health-canada/services/smoking-tobacco/quit-smoking/how.html"
+    },
+    {
+      "country": "Australia",
+      "name": "Quitline",
+      "contact": "13 7848",
+      "sourceUrl": "https://www.quit.org.au/en/how-to-quit/about-the-quitline-13-7848"
+    },
+    {
+      "country": "New Zealand",
+      "name": "Quitline",
+      "contact": "0800 778 778; free text 4006",
+      "sourceUrl": "https://quit.org.nz/info-resources/leaflet-on-services.pdf"
+    },
+    {
+      "country": "Ireland",
+      "name": "HSE QUIT",
+      "contact": "Freephone 1800 201 203; text QUIT to 50100",
+      "sourceUrl": "https://www2.hse.ie/living-well/quit-smoking/contact/"
+    },
+    {
+      "country": "Other countries",
+      "name": "WHO list of national quitlines",
+      "contact": "https://www.who.int/campaigns/world-no-tobacco-day/2021/quitting-toolkit/toll-free-quitlines",
+      "sourceUrl": "https://www.who.int/campaigns/world-no-tobacco-day/2021/quitting-toolkit/toll-free-quitlines"
+    }
+  ],
+  "sources": [
+    { "name": "Stead et al. Combined pharmacotherapy and behavioural interventions for smoking cessation. Cochrane 2016", "url": "https://cochranelibrary.com/cdsr/doi/10.1002/14651858.CD008286.pub3/information" },
+    { "name": "Lindson et al. Pharmacological and electronic cigarette interventions for smoking cessation in adults. Cochrane 2023", "url": "https://pubmed.ncbi.nlm.nih.gov/37696529/" },
+    { "name": "Hartmann-Boyce et al. Nicotine replacement therapy versus control. Cochrane 2018 (featured review)", "url": "https://www.cochrane.org/news/featured-review-nicotine-replacement-therapy-versus-control-smoking-cessation" },
+    { "name": "Howes et al. Antidepressants for smoking cessation. Cochrane 2020", "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000031.pub5/information" },
+    { "name": "Lancaster & Stead. Individual behavioural counselling for smoking cessation. Cochrane 2017", "url": "https://cochranelibrary.com/cdsr/doi/10.1002/14651858.CD001292.pub3/information" },
+    { "name": "Matkin et al. Telephone counselling for smoking cessation. Cochrane 2019", "url": "https://www.cochrane.org/CD002850" },
+    { "name": "Whittaker et al. Mobile phone text messaging and app-based interventions for smoking cessation. Cochrane 2019", "url": "https://cochranelibrary.com/cdsr/doi/10.1002/14651858.CD006611.pub5/information" },
+    { "name": "Notley et al. Incentives for smoking cessation. Cochrane 2025", "url": "https://ueaeprints.uea.ac.uk/id/eprint/98253" },
+    { "name": "Ussher et al. Exercise interventions for smoking cessation. Cochrane 2019", "url": "https://pubmed.ncbi.nlm.nih.gov/31684691/" },
+    { "name": "Jackson et al. Mindfulness for smoking cessation. Cochrane 2022", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9009295/" },
+    { "name": "Livingstone-Banks et al. Relapse prevention interventions for smoking cessation. Cochrane 2019", "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD003999.pub6/pdf/CDSR/CD003999/CD003999_abstract.pdf" },
+    { "name": "US Surgeon General. Smoking Cessation: key findings, 2020", "url": "https://www.hhs.gov/surgeongeneral/reports-and-publications/tobacco/2020-cessation-sgr-factsheet-key-findings/index.html" },
+    { "name": "USPSTF. Tobacco smoking cessation in adults, including pregnant persons, 2021", "url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/tobacco-use-in-adults-and-pregnant-women-counseling-and-interventions" },
+    { "name": "NICE NG209. Tobacco: preventing uptake, promoting quitting and treating dependence", "url": "https://www.nice.org.uk/guidance/NG209" },
+    { "name": "Haasova et al. Acute effects of physical activity on cigarette cravings: IPD meta-analysis. Addiction 2013", "url": "https://researchportal.plymouth.ac.uk/en/publications/the-acute-effects-of-physical-activity-on-cigarette-cravings-syst-2/" },
+    { "name": "Skorka-Brown et al. Playing Tetris decreases drug and other cravings in real world settings. Addictive Behaviors 2015", "url": "https://researchportal.plymouth.ac.uk/en/publications/playing-tetris-decreases-drug-and-other-cravings-in-real-world-se-2/" },
+    { "name": "McClernon et al. Controlled deep breathing and smoking withdrawal symptoms. Addictive Behaviors 2004", "url": "https://pubmed.ncbi.nlm.nih.gov/15135559/" },
+    { "name": "Bowen & Marlatt. Surfing the urge: brief mindfulness-based intervention for college student smokers. 2009", "url": "https://pubmed.ncbi.nlm.nih.gov/20025372/" },
+    { "name": "McWilliams et al. Implementation intentions to support smoking cessation: meta-analysis. Health Psychology 2019", "url": "https://eprints.whiterose.ac.uk/154864/" },
+    { "name": "Toll et al. Gain- vs loss-framed messages for smoking cessation (Yale news summary). 2007", "url": "https://news.yale.edu/2007/12/06/accentuating-positive-more-effective-inspiring-smokers-quit" },
+    { "name": "Kirchner, Shiffman & Wileyto. Relapse dynamics during smoking cessation. 2011", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3296289" },
+    { "name": "NCSCT. The 'not a puff' rule", "url": "https://www.ncsct.co.uk/publications/not_a_puff_rule" },
+    { "name": "NHS Better Health: understand your triggers and cravings", "url": "https://www.nhs.uk/better-health/quit-smoking/staying-smoke-free/understand-your-smoking-triggers-and-cravings/" },
+    { "name": "NHS Better Health: managing nicotine withdrawal", "url": "https://www.nhs.uk/better-health/quit-smoking/staying-smoke-free/managing-nicotine-withdrawal-symptoms" },
+    { "name": "Smokefree.gov: How to manage cravings", "url": "https://smokefree.gov/challenges-when-quitting/cravings-triggers/how-manage-cravings" },
+    { "name": "CDC: quitlines", "url": "https://www.cdc.gov/tobacco/campaign/tips/quit-smoking/quitline/index.html" },
+    { "name": "WHO: toll-free quitlines by country", "url": "https://www.who.int/campaigns/world-no-tobacco-day/2021/quitting-toolkit/toll-free-quitlines" }
+  ]
+}

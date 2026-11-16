@@ -1,0 +1,232 @@
+{
+  "milestones": [
+    {
+      "id": "heart-rate-drops",
+      "seconds": 1200,
+      "label": "20 minutes",
+      "title": "Heart rate starts to settle",
+      "body": "Within about 20 minutes your heart rate starts to come down toward its normal resting level.",
+      "system": "heart",
+      "kind": "recovery",
+      "sourceName": "American Cancer Society",
+      "sourceUrl": "https://www.cancer.org/cancer/risk-prevention/tobacco/benefits-of-quitting-smoking-over-time.html",
+      "note": "ACS and NHS sources say heart rate and blood pressure both start to drop; CDC's archived timeline mentions heart rate only."
+    },
+    {
+      "id": "carbon-monoxide-falls",
+      "seconds": 43200,
+      "label": "12 hours",
+      "title": "Carbon monoxide is clearing",
+      "body": "Carbon monoxide from smoke is clearing from your blood, so your blood can carry more oxygen.",
+      "system": "blood",
+      "kind": "recovery",
+      "sourceName": "American Cancer Society",
+      "sourceUrl": "https://www.cancer.org/cancer/risk-prevention/tobacco/benefits-of-quitting-smoking-over-time.html",
+      "note": "Sources disagree: older CDC/ACS timelines say about 12 hours to normal; the current CDC page says several days to reach non-smoker levels; some NHS pages say 24-48 hours. 'Clearing' is the cautious claim."
+    },
+    {
+      "id": "nicotine-cleared",
+      "seconds": 86400,
+      "label": "24 hours",
+      "title": "Nicotine is mostly out of your blood",
+      "body": "Nicotine drops to very low levels in your blood within about a day, which is why withdrawal begins to bite.",
+      "system": "brain",
+      "kind": "withdrawal",
+      "sourceName": "CDC",
+      "sourceUrl": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html",
+      "note": "Nicotine's by-products (cotinine) stay detectable for days in tests."
+    },
+    {
+      "id": "taste-smell",
+      "seconds": 172800,
+      "label": "48 hours",
+      "title": "Taste and smell may start to improve",
+      "body": "NHS information says that around two days in, taste and smell can start to sharpen as your body adjusts.",
+      "system": "senses",
+      "kind": "recovery",
+      "sourceName": "NHS",
+      "sourceUrl": "https://111.wales.nhs.uk/livewell/quitsmokingtimeline/",
+      "note": "Attributed to NHS timelines. We have not included the common claim that nerve endings regrow at 48 hours; we could not confirm it in a primary source."
+    },
+    {
+      "id": "withdrawal-peak",
+      "seconds": 259200,
+      "label": "3 days",
+      "title": "Withdrawal is usually at its worst",
+      "body": "Cravings, irritability and poor sleep commonly peak around day 3. This is the hardest stretch, and it does ease.",
+      "system": "brain",
+      "kind": "withdrawal",
+      "sourceName": "NHS",
+      "sourceUrl": "https://111.wales.nhs.uk/livewell/quitsmokingtimeline/",
+      "note": "Individual experience varies; some people peak earlier or later."
+    },
+    {
+      "id": "breathing-easier",
+      "seconds": 259201,
+      "label": "~3 days",
+      "title": "Breathing may feel easier",
+      "body": "Some people notice breathing feels easier and energy picks up around day 3 as airways relax.",
+      "system": "lungs",
+      "kind": "recovery",
+      "sourceName": "NHS",
+      "sourceUrl": "https://111.wales.nhs.uk/livewell/quitsmokingtimeline/",
+      "note": "Reported by NHS timelines but evidence is weaker than for long-term outcomes; not everyone notices it this early."
+    },
+    {
+      "id": "one-week",
+      "seconds": 604800,
+      "label": "1 week",
+      "title": "Your first full week",
+      "body": "The sharpest withdrawal is behind you for most people. Cravings are still frequent but usually shorter.",
+      "system": "brain",
+      "kind": "withdrawal",
+      "sourceName": "NHS",
+      "sourceUrl": "https://111.wales.nhs.uk/livewell/quitsmokingtimeline/",
+      "note": "General pattern from NHS quit-smoking guidance; this is not a precisely measured milestone."
+    },
+    {
+      "id": "withdrawal-eases",
+      "seconds": 1209600,
+      "label": "2 weeks",
+      "title": "Withdrawal symptoms are easing",
+      "body": "For most people, withdrawal symptoms fade over roughly 2 to 4 weeks. Cravings still come, but less often.",
+      "system": "brain",
+      "kind": "withdrawal",
+      "sourceName": "NHS",
+      "sourceUrl": "https://111.wales.nhs.uk/livewell/quitsmokingtimeline/",
+      "note": "Some people have occasional cravings for months."
+    },
+    {
+      "id": "circulation-improves",
+      "seconds": 2419200,
+      "label": "4 weeks",
+      "title": "Circulation begins to improve",
+      "body": "Over the first weeks to months, blood flow starts to improve, which can make walking and exercise feel easier.",
+      "system": "blood",
+      "kind": "recovery",
+      "sourceName": "NHS",
+      "sourceUrl": "https://111.wales.nhs.uk/livewell/quitsmokingtimeline/",
+      "note": "NHS timelines give a range (commonly 2-12 weeks); we picked a conservative point inside it."
+    },
+    {
+      "id": "coughing-less",
+      "seconds": 7776000,
+      "label": "3 months",
+      "title": "Coughing and breathlessness start to ease",
+      "body": "From about 1-3 months, many people cough less as the lungs' cilia recover and lung function starts to improve.",
+      "system": "lungs",
+      "kind": "recovery",
+      "sourceName": "American Cancer Society",
+      "sourceUrl": "https://www.cancer.org/cancer/risk-prevention/tobacco/benefits-of-quitting-smoking-over-time.html",
+      "note": "ACS: coughing and shortness of breath decrease 1-9 months after quitting. Many people cough more for a short time first."
+    },
+    {
+      "id": "lung-function",
+      "seconds": 23328000,
+      "label": "9 months",
+      "title": "Lung function may be up to ~10% better",
+      "body": "By about 9 months, lung function may be improved by up to around 10% for some people, with less coughing.",
+      "system": "lungs",
+      "kind": "recovery",
+      "sourceName": "NHS",
+      "sourceUrl": "https://111.wales.nhs.uk/livewell/quitsmokingtimeline/",
+      "note": "Figure is 'up to'; actual gains depend on how long and how much you smoked."
+    },
+    {
+      "id": "heart-risk-half",
+      "seconds": 31536000,
+      "label": "1 year",
+      "title": "Heart disease risk is about half",
+      "body": "After a year, your extra risk of coronary heart disease is roughly half that of someone still smoking.",
+      "system": "heart",
+      "kind": "recovery",
+      "sourceName": "American Cancer Society",
+      "sourceUrl": "https://www.cancer.org/cancer/risk-prevention/tobacco/benefits-of-quitting-smoking-over-time.html",
+      "note": "CDC states heart disease risk falls sharply 1-2 years after quitting; the 'about half' figure is from ACS."
+    },
+    {
+      "id": "stroke-risk",
+      "seconds": 157680000,
+      "label": "5 years",
+      "title": "Stroke risk keeps falling",
+      "body": "Your risk of stroke continues to fall, and can approach that of a non-smoker within about 5 to 10 years.",
+      "system": "heart",
+      "kind": "recovery",
+      "sourceName": "CDC",
+      "sourceUrl": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html",
+      "note": "Sources vary (ACS: as soon as 2-5 years; CDC: 5-10 years). We show the more conservative window."
+    },
+    {
+      "id": "cancer-risk-five",
+      "seconds": 157680001,
+      "label": "5 years",
+      "title": "Mouth, throat and bladder cancer risk falls",
+      "body": "At around 5 years, risk of cancers of the mouth, throat, oesophagus and bladder is roughly half what it would be if you kept smoking.",
+      "system": "cancer",
+      "kind": "recovery",
+      "sourceName": "American Cancer Society",
+      "sourceUrl": "https://www.cancer.org/cancer/risk-prevention/tobacco/benefits-of-quitting-smoking-over-time.html",
+      "note": "Figure applies to people who smoked; cervical cancer risk is also reported to fall to non-smoker levels about 5 years after quitting."
+    },
+    {
+      "id": "lung-cancer-half",
+      "seconds": 315360000,
+      "label": "10 years",
+      "title": "Lung cancer death risk is about half",
+      "body": "Ten years after quitting, your risk of dying from lung cancer is about half that of someone who kept smoking.",
+      "system": "cancer",
+      "kind": "recovery",
+      "sourceName": "American Cancer Society",
+      "sourceUrl": "https://www.cancer.org/cancer/risk-prevention/tobacco/benefits-of-quitting-smoking-over-time.html",
+      "note": "Risk stays higher than that of someone who never smoked."
+    },
+    {
+      "id": "heart-nonsmoker",
+      "seconds": 473040000,
+      "label": "15 years",
+      "title": "Heart disease risk is near a non-smoker's",
+      "body": "Your risk of coronary heart disease is close to that of someone who never smoked.",
+      "system": "heart",
+      "kind": "recovery",
+      "sourceName": "CDC",
+      "sourceUrl": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html",
+      "note": "Older CDC/ACS timelines say 'same as a non-smoker'; we use 'close to' to stay cautious."
+    },
+    {
+      "id": "twenty-years",
+      "seconds": 630720000,
+      "label": "20 years",
+      "title": "Long-term risks keep shrinking",
+      "body": "Risks of several smoking-related cancers and lung disease continue to decline, and some, such as pancreatic cancer, may approach non-smoker levels.",
+      "system": "whole",
+      "kind": "recovery",
+      "sourceName": "American Cancer Society",
+      "sourceUrl": "https://www.cancer.org/cancer/risk-prevention/tobacco/benefits-of-quitting-smoking-over-time.html",
+      "note": "Some risks (especially lung cancer for heavy long-term smokers) never fully return to never-smoker levels. Specific 20-year claims were not re-verified."
+    }
+  ],
+  "perCigarette": {
+    "minutes": 20,
+    "summary": "A 2024 UCL analysis in the journal Addiction estimates each cigarette smoked shortens life by about 20 minutes on average (about 17 for men, 22 for women), up from an 11-minute estimate in 2000.",
+    "sourceName": "Jackson, Jarvis & West, Addiction (Dec 2024), as reported by Dentistry.co.uk",
+    "sourceUrl": "https://dentistry.co.uk/2025/01/02/smoking-one-cigarette-could-cut-20-minutes-off-life-expectancy/"
+  },
+  "sources": [
+    {
+      "name": "CDC: Benefits of Quitting Smoking",
+      "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"
+    },
+    {
+      "name": "American Cancer Society: Benefits of Quitting Smoking Over Time",
+      "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/benefits-of-quitting-smoking-over-time.html"
+    },
+    {
+      "name": "NHS Wales 111: Quit smoking timeline",
+      "url": "https://111.wales.nhs.uk/livewell/quitsmokingtimeline/"
+    },
+    {
+      "name": "Dentistry.co.uk: Smoking one cigarette could cut 20 minutes off life expectancy",
+      "url": "https://dentistry.co.uk/2025/01/02/smoking-one-cigarette-could-cut-20-minutes-off-life-expectancy/"
+    }
+  ]
+}

@@ -1,0 +1,772 @@
+<title>Clean Air Arcade</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Silkscreen:wght@400;700&family=Rubik:wght@400;500;700&display=swap">
+<style>
+/* Layout: one arcade cabinet column. Live clock on top, body-recovery level track as the spine, craving button always in reach. Single dark world by choice. */
+:root {
+  color-scheme: dark;
+  --bg: #17122b; --panel: #221a40; --panel-2: #2c2254; --line: #46378a;
+  --ink: #f3ecff; --dim: #a79cc9;
+  --pink: #ff6b9a; --mint: #4fe3c1; --amber: #ffc857; --red: #ff5d5d; --blue: #6aa9ff;
+  --display: Silkscreen, "Courier New", monospace;
+  --body: Rubik, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  --drop: 4px 4px 0 #0c0919;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); }
+body {
+  color: var(--ink); font: 400 16px/1.5 var(--body);
+  background:
+    linear-gradient(transparent 31px, rgba(106,169,255,.06) 32px) 0 0 / 100% 32px,
+    linear-gradient(90deg, transparent 31px, rgba(106,169,255,.06) 32px) 0 0 / 32px 100%,
+    var(--bg);
+  padding-block: 20px 120px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; margin: 0; text-wrap: balance; letter-spacing: .02em; }
+h1 { font-size: 21px; line-height: 1; }
+h2 { font-size: 19px; }
+h3 { font-size: 15px; line-height: 1.35; }
+p { margin: 0; }
+a { color: var(--blue); }
+.dim { color: var(--dim); }
+.small { font-size: 13px; }
+.label { font: 500 12px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand i { width: 18px; height: 18px; background: var(--mint); box-shadow: 6px 6px 0 var(--pink); display: block; margin-right: 6px; }
+.top-actions { display: flex; gap: 8px; }
+
+.btn {
+  font: 700 14px/1 var(--display); color: var(--ink);
+  background: var(--panel-2); border: 2px solid var(--line); padding: 11px 14px; cursor: pointer;
+  box-shadow: var(--drop); min-height: 44px;
+}
+.btn:hover { border-color: var(--ink); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #0c0919; }
+.btn.mint { background: var(--mint); border-color: var(--mint); color: #0c2a24; }
+.btn.amber { background: var(--amber); border-color: var(--amber); color: #33240a; }
+.btn.ghost { background: transparent; box-shadow: none; }
+.btn.tiny { font-size: 11px; padding: 7px 9px; min-height: 34px; box-shadow: none; }
+.btn[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: #0b1b33; }
+
+.panel { background: var(--panel); border: 2px solid var(--line); box-shadow: var(--drop); padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.banner { border: 2px dashed var(--amber); padding: 10px 12px; color: var(--amber); font-size: 14px; }
+
+/* clock */
+.clock { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.clock div { background: #0f0b20; border: 2px solid var(--line); padding: 10px 4px 8px; text-align: center; min-width: 0; }
+.clock b { display: block; font: 500 clamp(28px, 9vw, 52px)/1 var(--mono); font-variant-numeric: tabular-nums; color: var(--mint); }
+.clock span { font: 500 11px/1 var(--mono); letter-spacing: .14em; color: var(--dim); text-transform: uppercase; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.stat { border-left: 4px solid var(--line); padding: 2px 0 2px 10px; min-width: 0; }
+.stat b { display: block; font: 500 20px/1.2 var(--mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.stat.c-amber { border-color: var(--amber); } .stat.c-pink { border-color: var(--pink); }
+.stat.c-mint { border-color: var(--mint); } .stat.c-blue { border-color: var(--blue); }
+.xpbar, .bar { height: 14px; background: #0f0b20; border: 2px solid var(--line); position: relative; }
+.xpbar i, .bar i { position: absolute; inset: 0 auto 0 0; background: var(--amber); width: 0; }
+.bar i { background: repeating-linear-gradient(90deg, var(--mint) 0 10px, #37c7a8 10px 12px); }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+
+/* next unlock */
+.next { border-color: var(--amber); }
+.next .count { font: 500 22px/1 var(--mono); font-variant-numeric: tabular-nums; color: var(--amber); }
+
+/* SOS */
+.sos {
+  width: 100%; font: 700 clamp(18px, 5vw, 26px)/1.1 var(--display); letter-spacing: .04em;
+  background: var(--pink); color: #3a0a1c; border: 0; padding: 20px 16px; cursor: pointer;
+  box-shadow: 0 6px 0 #a83660, 6px 12px 0 #0c0919; display: flex; flex-direction: column; gap: 6px; align-items: center;
+}
+.sos small { font: 500 14px/1.3 var(--body); letter-spacing: 0; }
+.sos:active { transform: translateY(4px); box-shadow: 0 2px 0 #a83660, 4px 6px 0 #0c0919; }
+@media (prefers-reduced-motion: no-preference) { .sos span { animation: blink 1.4s steps(2) infinite; } }
+@keyframes blink { 50% { opacity: .35; } }
+
+/* level track */
+.track { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.track li { display: grid; grid-template-columns: 22px 1fr; gap: 14px; position: relative; padding-bottom: 18px; }
+.track li::before { content: ""; position: absolute; left: 9px; top: 20px; bottom: 0; width: 4px; background: var(--line); }
+.track li:last-child::before { display: none; }
+.track li.done::before { background: var(--mint); }
+.node { width: 22px; height: 22px; border: 2px solid var(--line); background: var(--bg); margin-top: 2px; position: relative; z-index: 1; }
+.done .node { background: var(--mint); border-color: var(--mint); }
+.cur .node { background: var(--amber); border-color: var(--amber); }
+.track .when { font: 500 12px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.done .when { color: var(--mint); } .cur .when { color: var(--amber); }
+.track .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.track li.locked h3, .track li.locked p { color: var(--dim); }
+.chip { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; border: 1px solid currentColor; padding: 3px 5px; color: var(--blue); white-space: nowrap; }
+.chip.tough { color: var(--pink); } .chip.strong { color: var(--mint); } .chip.moderate { color: var(--amber); } .chip.emerging { color: var(--dim); }
+.src { font-size: 12px; color: var(--dim); }
+.src a { color: var(--dim); }
+
+/* tabs */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabpane { display: flex; flex-direction: column; gap: 14px; }
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.list li { background: var(--panel-2); border: 2px solid var(--line); padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; min-width: 0; }
+.list li > div { min-width: 0; overflow-wrap: anywhere; display: flex; flex-direction: column; gap: 4px; }
+form.inline { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; }
+.field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 150px; min-width: 0; }
+.field.narrow { flex: 0 1 110px; }
+input, select {
+  font: 400 16px/1.2 var(--body); color: var(--ink); background: #0f0b20; border: 2px solid var(--line);
+  padding: 10px; width: 100%; min-height: 44px; border-radius: 0;
+}
+input[type=range] { padding: 0; accent-color: var(--pink); border: 0; background: transparent; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.days { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; align-items: end; height: 90px; border-bottom: 2px solid var(--line); }
+.days i { background: var(--pink); min-height: 2px; display: block; }
+.days i.zero { background: var(--line); }
+.method { border-top: 2px solid var(--line); padding-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.games { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.game { background: var(--panel-2); border: 2px solid var(--line); padding: 14px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+
+/* overlay */
+.overlay { position: fixed; inset: 0; z-index: 50; background: rgba(12,9,25,.92); overflow: auto;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  display: flex; align-items: flex-start; justify-content: center; }
+.dialog { width: 100%; max-width: 960px; margin: auto 0; }
+.dialog.narrow { max-width: 560px; }
+.big { font: 500 44px/1 var(--mono); color: var(--pink); font-variant-numeric: tabular-nums; }
+canvas.game-canvas { width: 100%; height: min(72vh, 560px); display: block; background: var(--bg); border: 2px solid var(--line); touch-action: none; user-select: none; -webkit-user-select: none; }
+.drop { display: flex; align-items: baseline; gap: 12px; font: 500 34px/1 var(--mono); }
+.drop .to { color: var(--mint); }
+.toasts { position: fixed; left: 0; right: 0; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; padding: 0 16px; }
+.toast { background: var(--amber); color: #33240a; font: 700 13px/1.3 var(--display); padding: 10px 14px; box-shadow: var(--drop); max-width: 100%; }
+footer { font-size: 13px; color: var(--dim); display: flex; flex-direction: column; gap: 8px; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><i aria-hidden="true"></i><h1>CLEAN AIR ARCADE</h1></div>
+    <div class="top-actions">
+      <button class="btn tiny" id="btn-sound" type="button" aria-pressed="false">SOUND OFF</button>
+      <button class="btn tiny" id="btn-settings" type="button">SETUP</button>
+    </div>
+  </header>
+
+  <div id="demo-banner" class="banner" hidden>Example run shown: 3 days smoke-free at 15 a day. <button class="btn tiny amber" id="btn-start-setup" type="button">SET MY QUIT TIME</button></div>
+
+  <section class="panel" aria-labelledby="clock-h">
+    <div class="row between"><span class="label" id="clock-h">Time smoke-free</span><span class="small dim" id="greeting"></span></div>
+    <div class="clock" role="timer" aria-label="Time smoke-free">
+      <div><b id="c-d">0</b><span>days</span></div><div><b id="c-h">00</b><span>hrs</span></div>
+      <div><b id="c-m">00</b><span>min</span></div><div><b id="c-s">00</b><span>sec</span></div>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div>
+      <div class="row between small"><span id="lvl-name" class="label"></span><span id="lvl-xp" class="dim"></span></div>
+      <div class="xpbar"><i id="xp-fill"></i></div>
+    </div>
+  </section>
+
+  <button class="sos" id="btn-sos" type="button"><span>CRAVING? PRESS START</span><small>Most urges fade within a few minutes. Play through this one.</small></button>
+
+  <section class="panel next" id="next-panel" aria-labelledby="next-h">
+    <div class="row between"><span class="label" id="next-h">Next body unlock</span><span class="count" id="next-count"></span></div>
+    <h3 id="next-title"></h3>
+    <p id="next-body" class="dim"></p>
+    <div class="bar"><i id="next-fill"></i></div>
+  </section>
+
+  <section class="panel" aria-labelledby="track-h">
+    <div class="row between"><h2 id="track-h">BODY RECOVERY MAP</h2><span class="label" id="track-count"></span></div>
+    <p class="dim small">Each level opens on its own as the clock runs. Timings are typical figures from public-health bodies; your body may run a little ahead or behind.</p>
+    <ol class="track" id="track"></ol>
+  </section>
+
+  <section class="panel" aria-labelledby="arcade-h">
+    <h2 id="arcade-h">FREE PLAY</h2>
+    <div class="games" id="games"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="kit-h">
+    <h2 id="kit-h">QUIT KIT</h2>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="tabpane" id="tabpane"></div>
+  </section>
+
+  <footer>
+    <p id="sync-note">Progress is saved in this browser.</p>
+    <p>This is a self-help game, not medical care. Stop-smoking medicines and a trained adviser give the best odds of quitting; a pharmacist or doctor can set you up.</p>
+    <div><button class="btn tiny ghost" id="btn-slip" type="button">I SMOKED</button></div>
+  </footer>
+</div>
+<div id="overlay-root"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>/*__DATA__*/</script>
+<script>/*__GAMES__*/</script>
+<script>
+(function () {
+'use strict';
+var D = window.QUIT_DATA || {};
+var MS = ((D.milestones || {}).milestones || []).slice().sort(function (a, b) { return a.seconds - b.seconds; });
+var PER_CIG = (D.milestones || {}).perCigarette || null;
+var METHODS = D.methods || {};
+var COPY = D.copy || {};
+var PALETTE = { bg: '#17122b', panel: '#221a40', ink: '#f3ecff', dim: '#a79cc9', pink: '#ff6b9a', mint: '#4fe3c1', amber: '#ffc857', red: '#ff5d5d', blue: '#6aa9ff' };
+var FONTS = { display: 'Silkscreen, monospace', body: 'Rubik, system-ui, sans-serif' };
+var TRIGGERS = ['Stress', 'Coffee', 'Alcohol', 'After a meal', 'Boredom', 'Around smokers', 'Driving', 'Waking up', 'Something else'];
+var GAMES = [
+  { id: 'surf', name: 'URGE SURFER', secs: 180, len: '3 min', blurb: 'Ride the swell as it builds, peaks and flattens, the same shape a craving takes. Hold to rise.', method: 'urge-surfing' },
+  { id: 'breath', name: 'BREATH PILOT', secs: 60, len: '1 min', blurb: 'Fly a lantern with your lungs. Hold while you breathe in, let go as you breathe out.', method: 'paced-breathing' }
+];
+var LEVELS = ['Fresh Starter', 'Air Cadet', 'Urge Dodger', 'Smoke Breaker', 'Lung Ranger', 'Wave Rider', 'Clean Streaker', 'Oxygen Ace', 'Air Captain', 'Free Breather'];
+var LS_KEY = 'clean-air-arcade-v1';
+var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- state ---------- */
+function defaults() {
+  return { v: 1, quitAt: null, cigsPerDay: 15, packPrice: 0, packSize: 20, currency: guessCurrency(), xp: 0,
+    cravings: [], slips: [], plans: [], reasons: [], rewards: [], seen: [], xpFor: [], bestMs: 0, hi: {}, muted: true, updatedAt: 0 };
+}
+function guessCurrency() {
+  var loc = (navigator.language || '').toUpperCase();
+  if (/-ZA$/.test(loc)) return 'R'; if (/-GB$/.test(loc)) return '£'; if (/-IN$/.test(loc)) return '₹';
+  if (/-(DE|FR|ES|IT|NL|IE|PT|BE|AT|FI|GR)$/.test(loc)) return '€';
+  return '$';
+}
+function normalize(o) {
+  var d = defaults(), k;
+  if (!o || typeof o !== 'object') return d;
+  for (k in d) if (o[k] !== undefined && o[k] !== null || k === 'quitAt') if (o[k] !== undefined) d[k] = o[k];
+  ['cravings', 'slips', 'plans', 'reasons', 'rewards', 'seen', 'xpFor'].forEach(function (a) { if (!Array.isArray(d[a])) d[a] = []; });
+  if (typeof d.hi !== 'object' || !d.hi) d.hi = {};
+  return d;
+}
+var S = defaults();
+try { S = normalize(JSON.parse(localStorage.getItem(LS_KEY))); } catch (e) {}
+var cloudRef = null, cloudBusy = false, cloudDirty = false;
+function save() {
+  S.updatedAt = Date.now();
+  try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch (e) {}
+  pushCloud();
+}
+function pushCloud() {
+  if (!cloudRef) return;
+  if (cloudBusy) { cloudDirty = true; return; }
+  cloudBusy = true; cloudDirty = false;
+  cloudRef.set({ json: JSON.stringify(S), updatedAt: S.updatedAt }).then(function () {
+    $('sync-note').textContent = 'Progress is saved to your Claude account and this browser.';
+  }, function () {
+    $('sync-note').textContent = 'Progress is saved in this browser. Saving to your account failed just now and will retry on your next change.';
+  }).then(function () { cloudBusy = false; if (cloudDirty) pushCloud(); });
+}
+function initCloud() {
+  if (!window.claude || !window.claude.use) return;
+  Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function (r) {
+    if (!r[0] || !r[1]) return null;
+    return r[1].id().then(function (id) {
+      if (!id) return null;
+      cloudRef = r[0].collection('data/users/' + id).doc('quit');
+      return cloudRef.get();
+    });
+  }).then(function (snap) {
+    if (!snap) return;
+    var remote = null;
+    if (snap.exists) { try { remote = JSON.parse(snap.data().json); } catch (e) {} }
+    if (remote && (remote.updatedAt || 0) > (S.updatedAt || 0)) {
+      S = normalize(remote);
+      try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch (e) {}
+      renderAll();
+      $('sync-note').textContent = 'Progress is saved to your Claude account and this browser.';
+    } else if (S.updatedAt) pushCloud();
+    else $('sync-note').textContent = 'Progress will be saved to your Claude account and this browser.';
+  }).catch(function () { cloudRef = null; });
+}
+
+/* ---------- helpers ---------- */
+function $(id) { return document.getElementById(id); }
+function h(tag, attrs) {
+  var el = document.createElement(tag), i, k, c;
+  if (attrs) for (k in attrs) {
+    if (k === 'class') el.className = attrs[k];
+    else if (k === 'text') el.textContent = attrs[k];
+    else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), attrs[k]);
+    else if (attrs[k] === true) el.setAttribute(k, '');
+    else if (attrs[k] !== false && attrs[k] != null) el.setAttribute(k, attrs[k]);
+  }
+  for (i = 2; i < arguments.length; i++) {
+    c = arguments[i];
+    if (c == null || c === false) continue;
+    if (Array.isArray(c)) c.forEach(function (x) { if (x) el.appendChild(typeof x === 'string' ? document.createTextNode(x) : x); });
+    else el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  }
+  return el;
+}
+function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); return el; }
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+function pick(arr, seed) { if (!arr || !arr.length) return ''; return arr[(seed == null ? Math.floor(Math.random() * arr.length) : Math.abs(seed)) % arr.length]; }
+function fmtDur(sec) {
+  sec = Math.max(0, Math.round(sec));
+  var y = sec / 31557600;
+  if (y >= 1) { var yy = Math.floor(y), mo = Math.floor((y - yy) * 12); return yy + 'y' + (mo ? ' ' + mo + 'mo' : ''); }
+  var d = Math.floor(sec / 86400), hr = Math.floor(sec % 86400 / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60;
+  if (d >= 1) return d + 'd ' + hr + 'h';
+  if (hr >= 1) return hr + 'h ' + pad(m) + 'm';
+  if (m >= 1) return m + 'm ' + pad(s) + 's';
+  return s + 's';
+}
+function money(n) { return S.currency + (n >= 100 ? Math.round(n).toLocaleString() : n.toFixed(2)); }
+function srcLink(name, url) {
+  if (!name) return null;
+  var ok = url && /^https:\/\//.test(url);
+  return h('span', { class: 'src' }, 'Source: ', ok ? h('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: name }) : name);
+}
+function toast(msg) {
+  var t = h('div', { class: 'toast', text: msg });
+  $('toasts').appendChild(t);
+  setTimeout(function () { t.remove(); }, 4200);
+}
+function method(id) { return (METHODS.methods || []).filter(function (m) { return m.id === id; })[0]; }
+
+/* ---------- derived ---------- */
+var DEMO_OFFSET = (3 * 24 + 4) * 3600 * 1000;
+var bootAt = Date.now();
+function isDemo() { return !S.quitAt; }
+function quitAt() { return S.quitAt || bootAt - DEMO_OFFSET; }
+function elapsedSec() { return Math.max(0, (Date.now() - quitAt()) / 1000); }
+function avoided() { return elapsedSec() / 86400 * (+S.cigsPerDay || 0); }
+function saved() { return S.packSize > 0 ? avoided() / S.packSize * (+S.packPrice || 0) : 0; }
+function beaten() { return S.cravings.filter(function (c) { return !c.smoked; }).length; }
+function level() { return Math.floor(Math.sqrt(S.xp / 100)) + 1; }
+function addXp(n) {
+  var before = level(); S.xp += Math.round(n);
+  if (level() > before) toast('LEVEL UP: ' + levelName(level()));
+}
+function levelName(l) { return LEVELS[Math.min(l, LEVELS.length) - 1]; }
+
+/* ---------- top HUD ---------- */
+function renderStats() {
+  var el = clear($('stats')), items = [
+    ['c-pink', Math.floor(avoided()).toLocaleString(), 'Cigarettes not smoked'],
+    ['c-mint', String(beaten()), 'Cravings beaten']
+  ];
+  if (+S.packPrice > 0 || isDemo()) items.splice(1, 0, ['c-amber', isDemo() ? '—' : money(saved()), 'Money kept']);
+  if (PER_CIG && PER_CIG.minutes) items.push(['c-blue', fmtDur(avoided() * PER_CIG.minutes * 60), 'Life expectancy protected (est.)']);
+  items.forEach(function (it) { el.appendChild(h('div', { class: 'stat ' + it[0] }, h('b', { text: it[1] }), h('span', { class: 'small dim', text: it[2] }))); });
+  var l = level(), lo = (l - 1) * (l - 1) * 100, hi = l * l * 100;
+  $('lvl-name').textContent = 'Level ' + l + ' · ' + levelName(l);
+  $('lvl-xp').textContent = S.xp + ' / ' + hi + ' XP';
+  $('xp-fill').style.width = Math.min(100, (S.xp - lo) / (hi - lo) * 100) + '%';
+}
+var lastNextId = null;
+function tick() {
+  var sec = Math.floor(elapsedSec());
+  $('c-d').textContent = Math.floor(sec / 86400);
+  $('c-h').textContent = pad(Math.floor(sec % 86400 / 3600));
+  $('c-m').textContent = pad(Math.floor(sec % 3600 / 60));
+  $('c-s').textContent = pad(sec % 60);
+  checkUnlocks(sec);
+  var nx = MS.filter(function (m) { return m.seconds > sec; })[0];
+  var id = nx ? nx.id : '_end';
+  if (id !== lastNextId) { lastNextId = id; renderNext(nx); renderTrack(); }
+  if (nx) {
+    var prev = 0; MS.forEach(function (m) { if (m.seconds <= sec) prev = m.seconds; });
+    $('next-count').textContent = 'in ' + fmtDur(nx.seconds - sec);
+    $('next-fill').style.width = Math.max(1, Math.min(100, (sec - prev) / (nx.seconds - prev) * 100)) + '%';
+  }
+  if (sec % 15 === 0) renderStats();
+}
+function checkUnlocks(sec) {
+  if (isDemo()) return;
+  var fresh = MS.filter(function (m) { return m.seconds <= sec && S.seen.indexOf(m.id) < 0; });
+  if (!fresh.length) return;
+  fresh.forEach(function (m) {
+    S.seen.push(m.id);
+    if (S.xpFor.indexOf(m.id) < 0) { S.xpFor.push(m.id); addXp(100); }
+  });
+  toast(fresh.length === 1 ? 'UNLOCKED: ' + fresh[0].title : fresh.length + ' BODY LEVELS UNLOCKED');
+  save(); renderStats();
+}
+function renderNext(nx) {
+  $('next-panel').hidden = false;
+  if (!nx) {
+    $('next-title').textContent = MS.length ? 'Every level on the map is open.' : 'The recovery map is loading.';
+    $('next-body').textContent = MS.length ? 'Your body has had the full run of recovery time this map tracks. Keep the streak.' : '';
+    $('next-count').textContent = ''; $('next-fill').style.width = '100%';
+    return;
+  }
+  $('next-title').textContent = nx.label + ': ' + nx.title;
+  $('next-body').textContent = nx.body;
+}
+function renderTrack() {
+  var sec = elapsedSec(), el = clear($('track')), done = 0, curMarked = false;
+  MS.forEach(function (m) {
+    var isDone = m.seconds <= sec, isCur = !isDone && !curMarked;
+    if (isDone) done++; if (isCur) curMarked = true;
+    el.appendChild(h('li', { class: isDone ? 'done' : isCur ? 'cur' : 'locked' },
+      h('span', { class: 'node', 'aria-hidden': 'true' }),
+      h('div', { class: 'body' },
+        h('div', { class: 'row' },
+          h('span', { class: 'when', text: m.label + (isDone ? ' · unlocked' : ' · in ' + fmtDur(m.seconds - sec)) }),
+          h('span', { class: 'chip' + (m.kind === 'withdrawal' ? ' tough' : ''), text: m.kind === 'withdrawal' ? 'tough patch' : (m.system || 'body') })),
+        h('h3', { text: m.title }),
+        h('p', { class: 'small', text: m.body }),
+        m.note ? h('p', { class: 'src', text: m.note }) : null,
+        srcLink(m.sourceName, m.sourceUrl))));
+  });
+  $('track-count').textContent = done + ' / ' + MS.length + ' open';
+}
+
+/* ---------- overlay ---------- */
+var overlayCleanup = null;
+function openOverlay(node, narrow, onClose) {
+  closeOverlay(true);
+  var root = $('overlay-root');
+  var dlg = h('div', { class: 'dialog' + (narrow ? ' narrow' : ''), role: 'dialog', 'aria-modal': 'true' }, node);
+  var ov = h('div', { class: 'overlay' }, dlg);
+  root.appendChild(ov);
+  function key(e) { if (e.key === 'Escape') closeOverlay(); }
+  window.addEventListener('keydown', key);
+  overlayCleanup = function (silent) { window.removeEventListener('keydown', key); if (onClose) onClose(silent); };
+  var f = dlg.querySelector('button, input, select'); if (f) f.focus();
+}
+function closeOverlay(silent) {
+  if (overlayCleanup) { var c = overlayCleanup; overlayCleanup = null; c(silent); }
+  clear($('overlay-root'));
+}
+function panel() { var p = h('div', { class: 'panel' }); for (var i = 0; i < arguments.length; i++) if (arguments[i]) p.appendChild(arguments[i]); return p; }
+
+/* ---------- games ---------- */
+function runGame(g, onDone) {
+  var canvas = h('canvas', { class: 'game-canvas', 'aria-label': g.name + ' game' });
+  var mod = (window.QuitGames || {})[g.id], ended = false;
+  var facts = (METHODS.cravingFacts || []).map(function (f) { return f.text; });
+  openOverlay(panel(
+    h('div', { class: 'row between' }, h('h2', { text: g.name }),
+      h('button', { class: 'btn tiny', type: 'button', text: 'END EARLY', onclick: function () { finish({ score: 0, completed: false }); } })),
+    canvas,
+    h('p', { class: 'small dim', text: g.id === 'surf' ? 'Hold anywhere (or Space) to rise, let go to sink. Catch clean air, slip past smoke.' : 'Hold anywhere (or Space) as you breathe in. Let go as you breathe out.' })
+  ), false, function () { if (mod) mod.stop(); });
+  function finish(res) {
+    if (ended) return; ended = true;
+    if (mod) mod.stop();
+    onDone(res || { score: 0, completed: false });
+  }
+  if (!mod) { finish({ score: 0, completed: false }); return; }
+  requestAnimationFrame(function () {
+    if (ended) return;
+    try { mod.start(canvas, { duration: g.secs, palette: PALETTE, fonts: FONTS, reducedMotion: reduced, muted: S.muted, tips: facts.concat(S.reasons.map(function (r) { return 'Your reason: ' + r; })), onEnd: finish }); }
+    catch (e) { finish({ score: 0, completed: false }); }
+  });
+}
+function recordScore(g, res) {
+  var isHi = res.score > (S.hi[g.id] || 0);
+  if (isHi) S.hi[g.id] = res.score;
+  return isHi;
+}
+function freePlay(g) {
+  runGame(g, function (res) {
+    var isHi = recordScore(g, res); if (res.completed) addXp(10);
+    save(); renderStats(); renderGames();
+    openOverlay(panel(
+      h('span', { class: 'label', text: g.name }),
+      h('div', { class: 'big', text: String(res.score || 0) }),
+      h('p', { text: isHi ? 'New high score.' : 'High score: ' + (S.hi[g.id] || 0) }),
+      h('div', { class: 'row' },
+        h('button', { class: 'btn mint', type: 'button', text: 'PLAY AGAIN', onclick: function () { freePlay(g); } }),
+        h('button', { class: 'btn', type: 'button', text: 'DONE', onclick: function () { closeOverlay(); } }))
+    ), true);
+  });
+}
+function renderGames() {
+  var el = clear($('games'));
+  GAMES.forEach(function (g) {
+    var m = method(g.method);
+    el.appendChild(h('div', { class: 'game' },
+      h('h3', { text: g.name }), h('span', { class: 'label', text: g.len + ' · high score ' + (S.hi[g.id] || 0) }),
+      h('p', { class: 'small', text: g.blurb }),
+      m ? h('span', { class: 'chip ' + m.evidence, text: 'evidence: ' + m.evidence }) : null,
+      h('button', { class: 'btn', type: 'button', text: 'PLAY', onclick: function () { freePlay(g); } })));
+  });
+}
+
+/* ---------- craving flow ---------- */
+function slider(id, val) { return h('input', { type: 'range', id: id, min: '1', max: '10', step: '1', value: String(val) }); }
+function cravingStart() {
+  var trig = null, num = h('div', { class: 'big', text: '6' }), s = slider('crave-before', 6);
+  s.addEventListener('input', function () { num.textContent = s.value; });
+  var chips = h('div', { class: 'chips' }, TRIGGERS.map(function (t) {
+    return h('button', { class: 'btn tiny', type: 'button', 'aria-pressed': 'false', text: t, onclick: function (e) {
+      trig = trig === t ? null : t;
+      Array.prototype.forEach.call(chips.children, function (b) { b.setAttribute('aria-pressed', String(b.textContent === trig)); });
+    } });
+  }));
+  openOverlay(panel(
+    h('h2', { text: 'CRAVING INCOMING' }),
+    h('p', { class: 'dim', text: 'Name it before you fight it. Logging urges is part of what makes them easier to spot and beat.' }),
+    h('label', { class: 'label', for: 'crave-before', text: 'How strong is it? 1 to 10' }), num, s,
+    h('span', { class: 'label', text: 'What set it off?' }), chips,
+    h('button', { class: 'btn mint', type: 'button', text: 'NEXT', onclick: function () { cravingPick({ t: Date.now(), before: +s.value, trigger: trig }); } })
+  ), true);
+}
+function cravingPick(c) {
+  var plan = S.plans.filter(function (p) { return p.trigger === c.trigger; })[0];
+  var fact = pick(METHODS.cravingFacts || []);
+  var reason = pick(S.reasons);
+  openOverlay(panel(
+    h('h2', { text: 'PICK YOUR MOVE' }),
+    plan ? h('div', { class: 'banner' }, 'Your plan for ' + plan.trigger.toLowerCase() + ': ' + plan.action) : null,
+    reason ? h('p', {}, h('span', { class: 'label', text: 'Why you quit ' }), reason) : null,
+    fact ? h('p', { class: 'dim small' }, fact.text + ' ', srcLink(fact.sourceName, fact.sourceUrl)) : null,
+    h('div', { class: 'games' }, GAMES.map(function (g) {
+      return h('button', { class: 'btn', type: 'button', onclick: function () { c.tool = g.id; runGame(g, function (res) { c.score = res.score || 0; recordScore(g, res); cravingAfter(c); }); } },
+        g.name + ' · ' + g.len);
+    }).concat([h('button', { class: 'btn', type: 'button', text: 'QUICK IDEA · 2 min', onclick: function () { c.tool = 'idea'; quickIdea(c); } })]))
+  ), true);
+}
+function quickIdea(c) {
+  var left = 120, clock = h('div', { class: 'big', text: '2:00' });
+  var iv = setInterval(function () {
+    left--; clock.textContent = Math.floor(left / 60) + ':' + pad(left % 60);
+    if (left <= 0) { clearInterval(iv); cravingAfter(c); }
+  }, 1000);
+  openOverlay(panel(
+    h('h2', { text: 'TWO-MINUTE MISSION' }),
+    h('h3', { text: pick(COPY.quickDistractions) || 'Walk briskly to the end of the street and back.' }),
+    clock,
+    h('button', { class: 'btn mint', type: 'button', text: 'DONE', onclick: function () { cravingAfter(c); } })
+  ), true, function () { clearInterval(iv); });
+}
+function cravingAfter(c) {
+  var num = h('div', { class: 'big', text: String(Math.max(1, c.before - 2)) }), s = slider('crave-after', Math.max(1, c.before - 2));
+  s.addEventListener('input', function () { num.textContent = s.value; });
+  openOverlay(panel(
+    h('h2', { text: 'CHECK IN' }),
+    c.score ? h('p', { class: 'label', text: 'Score ' + c.score }) : null,
+    h('label', { class: 'label', for: 'crave-after', text: 'How strong is the urge now? 1 to 10' }), num, s,
+    h('div', { class: 'row' },
+      h('button', { class: 'btn mint', type: 'button', text: 'I RODE IT OUT', onclick: function () { c.after = +s.value; cravingWin(c); } }),
+      h('button', { class: 'btn', type: 'button', text: 'STILL STRONG, GO AGAIN', onclick: function () { cravingPick(c); } })),
+    h('button', { class: 'btn tiny ghost', type: 'button', text: 'I SMOKED', onclick: function () { c.after = +s.value; c.smoked = true; S.cravings.push(c); save(); slipFlow(); } })
+  ), true);
+}
+function cravingWin(c) {
+  c.smoked = false; S.cravings.push(c);
+  var xp = 50 + Math.min(50, Math.round((c.score || 0) / 200));
+  addXp(xp); save(); renderStats(); renderTab();
+  openOverlay(panel(
+    h('h2', { text: 'URGE BEATEN' }),
+    h('p', { text: pick(COPY.cravingWin) || 'That urge came and went. You stayed.' }),
+    h('div', { class: 'drop' }, h('span', { text: String(c.before) }), h('span', { class: 'dim', text: '→' }), h('span', { class: 'to', text: String(c.after) })),
+    h('p', { class: 'label', text: '+' + xp + ' XP · cravings beaten: ' + beaten() }),
+    !S.plans.length && c.trigger ? h('p', { class: 'dim small', text: 'Tip: write an if-then plan for "' + c.trigger + '" in the Quit Kit so the next one is already handled.' }) : null,
+    h('button', { class: 'btn mint', type: 'button', text: 'BACK TO THE MAP', onclick: function () { closeOverlay(); } })
+  ), true);
+}
+
+/* ---------- slip ---------- */
+function slipFlow() {
+  var m = method('slip-recovery');
+  var streak = isDemo() ? 0 : Date.now() - S.quitAt;
+  openOverlay(panel(
+    h('h2', { text: 'CONTINUE?' }),
+    h('p', { text: pick(COPY.slip) || 'A slip is information, not the end of the run. What you have built still counts.' }),
+    m ? h('p', { class: 'dim small' }, m.what + ' ', srcLink(m.sourceName, m.sourceUrl)) : null,
+    isDemo() ? null : h('p', { class: 'small', text: 'This run lasted ' + fmtDur(streak / 1000) + '. Your XP, beaten cravings and best streak stay. The body clock restarts from your last cigarette, because that is how the recovery timings are measured.' }),
+    h('div', { class: 'row' },
+      h('button', { class: 'btn mint', type: 'button', text: 'RESTART MY CLOCK NOW', onclick: function () {
+        if (!isDemo()) { S.bestMs = Math.max(S.bestMs, streak); S.slips.push({ t: Date.now(), ms: streak }); }
+        S.quitAt = Date.now(); S.seen = []; lastNextId = null; save(); renderAll(); closeOverlay();
+        toast('New run started. Not a puff from here.');
+      } }),
+      h('button', { class: 'btn', type: 'button', text: 'CANCEL', onclick: function () { closeOverlay(); } }))
+  ), true);
+}
+
+/* ---------- setup ---------- */
+function toLocalInput(ms) { var d = new Date(ms - new Date(ms).getTimezoneOffset() * 60000); return d.toISOString().slice(0, 16); }
+function setupFlow() {
+  var when = h('input', { type: 'datetime-local', id: 'set-when', value: toLocalInput(S.quitAt || Date.now()), max: toLocalInput(Date.now() + 60000) });
+  var cigs = h('input', { type: 'number', id: 'set-cigs', min: '0', max: '200', step: '1', inputmode: 'numeric', value: String(S.cigsPerDay) });
+  var price = h('input', { type: 'number', id: 'set-price', min: '0', step: '0.01', inputmode: 'decimal', value: S.packPrice ? String(S.packPrice) : '', placeholder: 'e.g. 60' });
+  var size = h('input', { type: 'number', id: 'set-size', min: '1', max: '100', step: '1', inputmode: 'numeric', value: String(S.packSize) });
+  var cur = h('input', { type: 'text', id: 'set-cur', maxlength: '4', value: S.currency });
+  var err = h('p', { class: 'small', style: 'color:var(--red)', role: 'alert' });
+  var form = h('form', { class: 'inline', novalidate: true },
+    h('div', { class: 'field', style: 'flex-basis:100%' }, h('label', { class: 'label', for: 'set-when', text: 'When was your last cigarette?' }), when),
+    h('div', { class: 'field' }, h('label', { class: 'label', for: 'set-cigs', text: 'Cigarettes a day' }), cigs),
+    h('div', { class: 'field' }, h('label', { class: 'label', for: 'set-price', text: 'Price of a pack' }), price),
+    h('div', { class: 'field narrow' }, h('label', { class: 'label', for: 'set-size', text: 'Pack size' }), size),
+    h('div', { class: 'field narrow' }, h('label', { class: 'label', for: 'set-cur', text: 'Currency' }), cur),
+    h('div', { class: 'row', style: 'flex-basis:100%' },
+      h('button', { class: 'btn mint', type: 'submit', text: S.quitAt ? 'SAVE' : 'START MY RUN' }),
+      h('button', { class: 'btn', type: 'button', text: 'CANCEL', onclick: function () { closeOverlay(); } })));
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var t = new Date(when.value).getTime();
+    if (!when.value || isNaN(t)) { err.textContent = 'Pick the date and time of your last cigarette.'; return; }
+    if (t > Date.now() + 60000) { err.textContent = 'That time is in the future. Use now, or come back when you have stopped.'; return; }
+    var first = !S.quitAt, changed = S.quitAt !== t;
+    S.quitAt = Math.min(t, Date.now()); S.cigsPerDay = Math.max(0, +cigs.value || 0); S.packPrice = Math.max(0, +price.value || 0);
+    S.packSize = Math.max(1, +size.value || 20); S.currency = cur.value.trim() || '$';
+    if (changed) { S.seen = []; lastNextId = null; }
+    if (first || changed) {
+      var sec = elapsedSec();
+      MS.forEach(function (m) { if (m.seconds <= sec) { S.seen.push(m.id); if (S.xpFor.indexOf(m.id) < 0) { S.xpFor.push(m.id); S.xp += 100; } } });
+    }
+    save(); renderAll(); closeOverlay();
+    if (first) toast('Run started. The clock is yours.');
+  });
+  openOverlay(panel(h('h2', { text: S.quitAt ? 'SETUP' : 'START YOUR RUN' }),
+    h('p', { class: 'dim small', text: 'The body map counts from your last cigarette. The other numbers work out what you have not smoked and not spent.' }), form, err), true);
+}
+
+/* ---------- quit kit tabs ---------- */
+var TABS = [['plans', 'IF-THEN PLANS'], ['reasons', 'MY REASONS'], ['rewards', 'REWARDS'], ['log', 'CRAVING LOG'], ['science', 'THE SCIENCE'], ['help', 'REAL HELP']];
+var tab = 'plans';
+try { tab = localStorage.getItem(LS_KEY + '-tab') || 'plans'; } catch (e) {}
+function renderTabs() {
+  var el = clear($('tabs'));
+  TABS.forEach(function (t) {
+    el.appendChild(h('button', { class: 'btn tiny', type: 'button', role: 'tab', 'aria-selected': String(tab === t[0]), 'aria-pressed': String(tab === t[0]), text: t[1], onclick: function () {
+      tab = t[0]; try { localStorage.setItem(LS_KEY + '-tab', tab); } catch (e) {}
+      renderTabs(); renderTab();
+    } }));
+  });
+}
+function intro(id, fallback) {
+  var m = method(id);
+  return h('div', { class: 'row' }, h('p', { class: 'small dim', style: 'flex:1 1 260px', text: m ? m.what : fallback }),
+    m ? h('span', { class: 'chip ' + m.evidence, text: 'evidence: ' + m.evidence }) : null);
+}
+function delBtn(fn) { return h('button', { class: 'btn tiny ghost', type: 'button', text: 'REMOVE', onclick: fn }); }
+function renderTab() {
+  var el = clear($('tabpane'));
+  ({ plans: tabPlans, reasons: tabReasons, rewards: tabRewards, log: tabLog, science: tabScience, help: tabHelp }[tab] || tabPlans)(el);
+}
+function tabPlans(el) {
+  var sel = h('select', { id: 'plan-trigger' }, TRIGGERS.map(function (t) { return h('option', { value: t, text: t }); }));
+  var act = h('input', { type: 'text', id: 'plan-action', maxlength: '120', placeholder: 'I will step outside and play Urge Surfer' });
+  var form = h('form', { class: 'inline' },
+    h('div', { class: 'field' }, h('label', { class: 'label', for: 'plan-trigger', text: 'If this hits' }), sel),
+    h('div', { class: 'field', style: 'flex-grow:2' }, h('label', { class: 'label', for: 'plan-action', text: 'Then I will' }), act),
+    h('button', { class: 'btn mint', type: 'submit', text: 'ADD PLAN' }));
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); var a = act.value.trim(); if (!a) { act.focus(); return; }
+    S.plans = S.plans.filter(function (p) { return p.trigger !== sel.value; });
+    S.plans.push({ trigger: sel.value, action: a }); addXp(15); save(); renderStats(); renderTab();
+  });
+  el.appendChild(intro('if-then-plans', 'Deciding in advance what you will do when a trigger hits makes the new response more automatic.'));
+  el.appendChild(form);
+  el.appendChild(S.plans.length ? h('ul', { class: 'list' }, S.plans.map(function (p, i) {
+    return h('li', {}, h('div', {}, h('span', { class: 'label', text: 'If: ' + p.trigger }), h('span', { text: 'Then: ' + p.action })),
+      delBtn(function () { S.plans.splice(i, 1); save(); renderTab(); }));
+  })) : h('p', { class: 'dim small', text: 'No plans yet. Your plan pops up in the craving screen when you pick its trigger.' }));
+}
+function tabReasons(el) {
+  var inp = h('input', { type: 'text', id: 'reason-text', maxlength: '120', placeholder: 'To run with my kids without stopping' });
+  var form = h('form', { class: 'inline' },
+    h('div', { class: 'field', style: 'flex-grow:3' }, h('label', { class: 'label', for: 'reason-text', text: 'I am quitting' }), inp),
+    h('button', { class: 'btn mint', type: 'submit', text: 'ADD REASON' }));
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); var v = inp.value.trim(); if (!v) { inp.focus(); return; }
+    S.reasons.push(v); addXp(10); save(); renderStats(); renderTab();
+  });
+  el.appendChild(intro('reasons-list', 'Your own reasons, in your own words, are shown back to you in the middle of a craving.'));
+  el.appendChild(form);
+  el.appendChild(S.reasons.length ? h('ul', { class: 'list' }, S.reasons.map(function (r, i) {
+    return h('li', {}, h('div', { text: r }), delBtn(function () { S.reasons.splice(i, 1); save(); renderTab(); }));
+  })) : h('p', { class: 'dim small', text: 'Nothing here yet. Add one and it will show up when an urge hits.' }));
+}
+function tabRewards(el) {
+  var name = h('input', { type: 'text', id: 'reward-name', maxlength: '60', placeholder: 'New running shoes' });
+  var cost = h('input', { type: 'number', id: 'reward-cost', min: '0', step: '0.01', inputmode: 'decimal', placeholder: '900' });
+  var form = h('form', { class: 'inline' },
+    h('div', { class: 'field', style: 'flex-grow:2' }, h('label', { class: 'label', for: 'reward-name', text: 'Treat to earn' }), name),
+    h('div', { class: 'field narrow' }, h('label', { class: 'label', for: 'reward-cost', text: 'Cost' }), cost),
+    h('button', { class: 'btn mint', type: 'submit', text: 'ADD REWARD' }));
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); var n = name.value.trim(); if (!n || !(+cost.value > 0)) { (n ? cost : name).focus(); return; }
+    S.rewards.push({ name: n, cost: +cost.value, claimed: false }); save(); renderTab();
+  });
+  var spent = S.rewards.reduce(function (a, r) { return a + (r.claimed ? r.cost : 0); }, 0), bank = Math.max(0, saved() - spent);
+  el.appendChild(intro('rewards', 'Tangible rewards for staying smoke-free raise quit rates. Spend the cigarette money on something you actually want.'));
+  el.appendChild(h('p', {}, h('span', { class: 'label', text: 'Cigarette money in the bank ' }), isDemo() || !(+S.packPrice > 0) ? 'Add your pack price in Setup to fill this.' : money(bank)));
+  el.appendChild(form);
+  if (S.rewards.length) el.appendChild(h('ul', { class: 'list' }, S.rewards.map(function (r, i) {
+    var pct = r.claimed ? 100 : Math.min(100, bank / r.cost * 100), ready = !r.claimed && bank >= r.cost && !isDemo();
+    return h('li', {}, h('div', { style: 'flex:1' }, h('span', { text: r.name + ' · ' + money(r.cost) + (r.claimed ? ' · claimed' : '') }),
+      h('div', { class: 'bar' }, h('i', { style: 'width:' + pct + '%' }))),
+      ready ? h('button', { class: 'btn tiny amber', type: 'button', text: 'CLAIM', onclick: function () { r.claimed = true; addXp(40); save(); renderStats(); renderTab(); toast('Reward earned: ' + r.name); } })
+        : delBtn(function () { S.rewards.splice(i, 1); save(); renderTab(); }));
+  })));
+}
+function tabLog(el) {
+  el.appendChild(intro('self-monitoring', 'Keeping track of when urges hit shows you your pattern, and patterns can be planned for.'));
+  var cs = S.cravings;
+  if (!cs.length) { el.appendChild(h('p', { class: 'dim small', text: 'No cravings logged yet. Each time you press the craving button, it lands here: when it hit, what set it off, and how far it dropped.' })); return; }
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  var counts = [], i, max = 1;
+  for (i = 13; i >= 0; i--) counts.push(0);
+  cs.forEach(function (c) { var d = Math.floor((today.getTime() + 86400000 - c.t) / 86400000); if (d >= 0 && d < 14) counts[13 - d]++; });
+  counts.forEach(function (n) { if (n > max) max = n; });
+  el.appendChild(h('span', { class: 'label', text: 'Cravings a day, last 14 days (today on the right, busiest day ' + max + ')' }));
+  el.appendChild(h('div', { class: 'days', role: 'img', 'aria-label': 'Cravings per day for the last 14 days: ' + counts.join(', ') }, counts.map(function (n) {
+    return h('i', { class: n ? '' : 'zero', style: 'height:' + (n ? Math.max(8, n / max * 100) : 2) + '%', title: n + ' cravings' });
+  })));
+  var rated = cs.filter(function (c) { return c.after != null; }), avgB = 0, avgA = 0, trig = {}, top = [];
+  rated.forEach(function (c) { avgB += c.before; avgA += c.after; });
+  cs.forEach(function (c) { if (c.trigger) trig[c.trigger] = (trig[c.trigger] || 0) + 1; });
+  for (i in trig) top.push([i, trig[i]]);
+  top.sort(function (a, b) { return b[1] - a[1]; });
+  var stats = h('div', { class: 'stats' });
+  if (rated.length) stats.appendChild(h('div', { class: 'stat c-mint' }, h('b', { text: (avgB / rated.length).toFixed(1) + ' → ' + (avgA / rated.length).toFixed(1) }), h('span', { class: 'small dim', text: 'Average urge, before and after' })));
+  stats.appendChild(h('div', { class: 'stat c-pink' }, h('b', { text: beaten() + ' of ' + cs.length }), h('span', { class: 'small dim', text: 'Urges ridden out' })));
+  if (top.length) stats.appendChild(h('div', { class: 'stat c-amber' }, h('b', { text: top[0][0] }), h('span', { class: 'small dim', text: 'Most common trigger (' + top[0][1] + ')' })));
+  el.appendChild(stats);
+  if (top.length && !S.plans.some(function (p) { return p.trigger === top[0][0]; })) el.appendChild(h('p', { class: 'small', text: 'You have no if-then plan for "' + top[0][0] + '" yet. That is the one to write first.' }));
+}
+function tabScience(el) {
+  el.appendChild(h('p', { class: 'small dim', text: 'What each part of this arcade is based on, and how solid the evidence is. Strong means large reviews of trials; emerging means small or early studies.' }));
+  (METHODS.methods || []).forEach(function (m) {
+    el.appendChild(h('div', { class: 'method' },
+      h('div', { class: 'row' }, h('h3', { text: m.name }), h('span', { class: 'chip ' + m.evidence, text: m.evidence })),
+      h('p', { class: 'small', text: m.what }), h('p', { class: 'small dim', text: 'Try it: ' + m.howTo }), srcLink(m.sourceName, m.sourceUrl)));
+  });
+  if (PER_CIG) el.appendChild(h('div', { class: 'method' }, h('h3', { text: 'The life-expectancy counter' }),
+    h('p', { class: 'small', text: PER_CIG.summary + ' It is a population average, so read your counter as a rough guide, not a personal forecast.' }), srcLink(PER_CIG.sourceName, PER_CIG.sourceUrl)));
+}
+function tabHelp(el) {
+  var med = METHODS.medication;
+  if (med) el.appendChild(h('div', {}, h('h3', { text: 'Medicines and support beat willpower alone' }), h('p', { class: 'small', text: med.summary }), srcLink(med.sourceName, med.sourceUrl)));
+  var s = method('social-support');
+  if (s) el.appendChild(h('p', { class: 'small dim', text: s.what }));
+  if ((METHODS.quitlines || []).length) el.appendChild(h('ul', { class: 'list' }, METHODS.quitlines.map(function (q) {
+    var isUrl = /^https:\/\//.test(q.contact || '');
+    return h('li', {}, h('div', {}, h('span', { class: 'label', text: q.country }), h('span', { text: q.name }),
+      isUrl ? h('a', { href: q.contact, target: '_blank', rel: 'noopener noreferrer', text: q.contact.replace(/^https:\/\//, '') }) : h('span', { style: 'font-family:var(--mono);user-select:all', text: q.contact || '' }),
+      !isUrl && /^https:\/\//.test(q.sourceUrl || '') ? h('a', { class: 'small', href: q.sourceUrl, target: '_blank', rel: 'noopener noreferrer', text: 'Official page' }) : null));
+  })));
+}
+
+/* ---------- boot ---------- */
+function renderAll() {
+  $('demo-banner').hidden = !isDemo();
+  var best = Math.max(S.bestMs, S.quitAt ? Date.now() - S.quitAt : 0);
+  $('greeting').textContent = isDemo() ? '' : (pick(COPY.dailyCheckIn, Math.floor(Date.now() / 86400000)) || '') ;
+  $('btn-sound').textContent = S.muted ? 'SOUND OFF' : 'SOUND ON';
+  $('btn-sound').setAttribute('aria-pressed', String(!S.muted));
+  lastNextId = null; renderStats(); renderGames(); renderTabs(); renderTab(); tick();
+  if (S.slips.length && best) $('greeting').title = 'Best streak ' + fmtDur(best / 1000);
+}
+$('btn-sos').addEventListener('click', cravingStart);
+$('btn-settings').addEventListener('click', setupFlow);
+$('btn-start-setup').addEventListener('click', setupFlow);
+$('btn-slip').addEventListener('click', slipFlow);
+$('btn-sound').addEventListener('click', function () { S.muted = !S.muted; save(); renderAll(); });
+renderAll();
+setInterval(tick, 1000);
+initCloud();
+})();
+</script>
